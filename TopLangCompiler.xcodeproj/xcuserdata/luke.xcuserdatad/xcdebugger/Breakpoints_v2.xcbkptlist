@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.062974"
+            timestampString = "590859587.320258"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
-            landmarkName = "led(Parser&amp; parser, lexer::Token* token, AST* left)"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
+            landmarkName = "led(Parser&amp; parser, lexer::Token* token, AST* left, char ignore)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/error.cpp"
-            timestampString = "590838981.063117"
+            timestampString = "590859587.320361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/error.cpp"
-            timestampString = "590838981.063205"
+            timestampString = "590859587.320423"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/error.cpp"
-            timestampString = "590838981.0632859"
+            timestampString = "590859587.3204761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/error.cpp"
-            timestampString = "590838981.063379"
+            timestampString = "590859587.320528"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "107"
@@ -90,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.0634561"
+            timestampString = "590859587.32058"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "44"
@@ -106,12 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.0635591"
+            timestampString = "590859587.320636"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
-            landmarkName = "nud(Parser&amp; parser, lexer::Token* token)"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
+            landmarkName = "nud(Parser&amp; parser, lexer::Token* token, char ignore)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -122,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.06366"
+            timestampString = "590859587.3207"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "37"
@@ -138,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.063759"
+            timestampString = "590859587.320771"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "40"
@@ -154,7 +154,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.063859"
+            timestampString = "590859587.320825"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
@@ -170,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/error.cpp"
-            timestampString = "590838981.063954"
+            timestampString = "590859587.320878"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
@@ -186,7 +186,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/error.cpp"
-            timestampString = "590838981.064026"
+            timestampString = "590859587.320925"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "83"
@@ -202,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/string.h"
-            timestampString = "590838981.0641"
+            timestampString = "590858703.326152"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "27"
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/lexer.cpp"
-            timestampString = "590838981.064153"
+            timestampString = "590859587.321007"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "match_token(Lexer&amp; lexer)"
             landmarkType = "9">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/lexer.cpp"
-            timestampString = "590838981.064218"
+            timestampString = "590859587.321061"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "lex(Lexer&amp; lexer, string input, string filename, error::Error* err)"
             landmarkType = "9">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/lexer.cpp"
-            timestampString = "590838981.064281"
+            timestampString = "590859587.321156"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "lex(Lexer&amp; lexer, string input, string filename, error::Error* err)"
             landmarkType = "9">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.064345"
+            timestampString = "590859587.321221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "indent_block(Parser&amp; parser, lexer::Token* token)"
             landmarkType = "9">
          </BreakpointContent>
@@ -282,7 +282,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/error.cpp"
-            timestampString = "590838981.0644259"
+            timestampString = "590859587.32128"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
@@ -298,7 +298,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/error.cpp"
-            timestampString = "590838981.064491"
+            timestampString = "590859587.32133"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.064557"
+            timestampString = "590859587.3213789"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "expect(Parser&amp; parser, lexer::TokenGroup group, lexer::TokenType type, error::ErrorID id, string err_group, string err_mesg)"
             landmarkType = "9">
          </BreakpointContent>
@@ -330,7 +330,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.06463"
+            timestampString = "590859587.3214329"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "47"
@@ -346,7 +346,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/error.cpp"
-            timestampString = "590838981.0647039"
+            timestampString = "590859587.321488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "109"
@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.0647629"
+            timestampString = "590859587.321538"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "if_expr(Parser&amp; parser, lexer::Token* token)"
             landmarkType = "9">
          </BreakpointContent>
@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.064834"
+            timestampString = "590859587.3216"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "indent_block(Parser&amp; parser, lexer::Token* token)"
             landmarkType = "9">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.064901"
+            timestampString = "590859587.321709"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "indent_block(Parser&amp; parser, lexer::Token* token)"
             landmarkType = "9">
          </BreakpointContent>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.064966"
+            timestampString = "590859587.3217781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "if_expr(Parser&amp; parser, lexer::Token* token)"
             landmarkType = "9">
          </BreakpointContent>
@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.065028"
+            timestampString = "590859587.321835"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "indent_block(Parser&amp; parser, lexer::Token* token)"
             landmarkType = "9">
          </BreakpointContent>
@@ -442,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.065091"
+            timestampString = "590859587.321888"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "indent_block(Parser&amp; parser, lexer::Token* token)"
             landmarkType = "9">
          </BreakpointContent>
@@ -458,12 +458,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.06515"
+            timestampString = "590859587.321949"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
-            landmarkName = "expression(Parser&amp; parser, unsigned int rbp)"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
+            landmarkName = "expression(Parser&amp; parser, char ignore, unsigned int rbp)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -474,12 +474,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.065208"
+            timestampString = "590859587.322001"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
-            landmarkName = "expression(Parser&amp; parser, unsigned int rbp)"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "expression(Parser&amp; parser, char ignore, unsigned int rbp)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -490,12 +490,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.0652651"
+            timestampString = "590859587.322055"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
-            landmarkName = "expression(Parser&amp; parser, unsigned int rbp)"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
+            landmarkName = "expression(Parser&amp; parser, char ignore, unsigned int rbp)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -506,11 +506,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.065323"
+            timestampString = "590859587.322106"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "341"
-            endingLineNumber = "341"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
             landmarkName = "dump_ast(AST* ast, int indent = 0)"
             landmarkType = "9">
          </BreakpointContent>
@@ -522,12 +522,108 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/parser.cpp"
-            timestampString = "590838981.06537"
+            timestampString = "590859587.322157"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
             landmarkName = "dump_ast(AST* ast, int indent = 0)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopLangCompiler/parser.cpp"
+            timestampString = "590859587.322207"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "nud(Parser&amp; parser, lexer::Token* token, char ignore)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopLangCompiler/parser.cpp"
+            timestampString = "590859587.3222589"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "tuple(Parser&amp; parser, lexer::Token* token)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopLangCompiler/parser.cpp"
+            timestampString = "590859587.32231"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "tuple(Parser&amp; parser, lexer::Token* token)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopLangCompiler/parser.cpp"
+            timestampString = "590859587.322368"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "expect(Parser&amp; parser, lexer::TokenGroup group, lexer::TokenType type, error::ErrorID id, string err_group, string err_mesg)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopLangCompiler/parser.cpp"
+            timestampString = "590859587.322422"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "indent_block(Parser&amp; parser, lexer::Token* token)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopLangCompiler/lexer.cpp"
+            timestampString = "590859587.322474"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "lex(Lexer&amp; lexer, string input, string filename, error::Error* err)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

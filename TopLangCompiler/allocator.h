@@ -29,6 +29,6 @@ namespace top {
     
     template<typename T>
     inline void dealloc(Allocator allocator, void* allocator_data, T* ptr, unsigned int num = 1) {
-        allocator(allocator_data, AllocationType::Dealloc, ptr, sizeof(T) * num, 0);
+        allocator(allocator_data, AllocationType::Dealloc, (void*)ptr, sizeof(T) * num, 0);
     }
 };

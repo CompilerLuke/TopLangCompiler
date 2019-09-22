@@ -67,7 +67,6 @@ namespace top {
             if (lexer.tok == "if") { add_tok(lexer, Keyword, If, 0); }
             else if (lexer.tok == "elif") { add_tok(lexer, Keyword, Elif, 0); }
             else if (lexer.tok == "else") { add_tok(lexer, Keyword, Else, 0); }
-            else if (lexer.tok == "pass") { add_tok(lexer, Keyword, Pass, 0); }
             else if (lexer.tok == "true") { add_tok(lexer, Literal, True, 0); }
             else if (lexer.tok == "false") { add_tok(lexer, Literal, False, 0); }
             else if (is_int(lexer.tok)) { add_tok(lexer, Literal, Int, 0, true); }
@@ -117,6 +116,8 @@ namespace top {
             delimitters['('] = { true, Symbol, Open_Paren, 0 };
             delimitters[')'] = { true, Symbol, Close_Paren, 0 };
             delimitters[':'] = { true, Symbol, Colon, 0 };
+            delimitters['{'] = { true, Symbol, Open_Bracket, 0 };
+            delimitters['}'] = { true, Symbol, Close_Bracket, 0};
             
             delimitters['+'] = { true, Operator, AddOp, 10 };
             delimitters['-'] = { true, Operator, SubOp, 10 };
@@ -144,6 +145,11 @@ namespace top {
                     reset_tok(lexer);
                     
                     int num_indent = 0;
+                    while (lexer.i + 1 < lexer.input.length && lexer.input[lexer.i + 1] == '\n') {
+                        lexer.i++;
+                        lexer.line++;
+                    }
+                    
                     while (lexer.i + 1 < lexer.input.length && lexer.input[lexer.i + 1] == ' ') {
                         lexer.i++;
                         lexer.column++;
@@ -160,30 +166,32 @@ namespace top {
                         
                     } else {
                         lexer.line++;
-                        lexer.column = 0;
-                        
+
                         if (lexer.indent_diff == 0) lexer.indent_diff = abs(diff);
                         else {
-                            if (lexer.indent_diff != abs(diff)) {
+                            int indent_off = diff % lexer.indent_diff;
+                            if (indent_off != 0) {
                                 lexer.err->id = error::IndentationError;
                                 
                                 char* buffer = (char*)malloc(100);
-                                snprintf(buffer, 100, "Inconsistent indentation, expecting an indent of %i spaces but got %i spaces", lexer.indent_diff, abs(diff));
+                                snprintf(buffer, 100, "Inconsistent indentation, expecting an indent of %i spaces but got %i spaces", lexer.indent_diff, indent_off);
                                 
                                 lexer.err->mesg = { buffer, (unsigned int)strlen(buffer) };
                                 lexer.err->group = "Indentation Error";
-                                lexer.err->column = lexer.column;
+                                lexer.err->column = max(0, num_indent - indent_off);
                                 lexer.err->src = lexer.input;
                                 lexer.err->line = lexer.line;
-                                lexer.err->token_length = 1;
+                                lexer.err->token_length = indent_off;
                                 
                             }
                         }
                         
+                        lexer.column = max(0, num_indent - lexer.indent_diff);
+                        
                         if (diff > 0) {
-                            add_token(lexer, num_indent, lexer.column, Terminator, Open_Indent, 0);
+                            add_token(lexer, lexer.indent_diff, lexer.column, Terminator, Open_Indent, 0);
                         } else {
-                            add_token(lexer, num_indent, lexer.column, Terminator, Close_Indent, 0);
+                            add_token(lexer, lexer.indent_diff, lexer.column, Terminator, Close_Indent, 0);
                         }
                     }
                     lexer.indent = num_indent;
@@ -234,6 +242,8 @@ namespace top {
             if (token.type == lexer::Close_Indent) type = "CloseIndent";
             if (token.type == lexer::True) type = "true";
             if (token.type == lexer::False) type = "false";
+            if (token.type == lexer::Open_Bracket) type = "{";
+            if (token.type == lexer::Close_Bracket) type = "}";
             
             if (token.value.length) {
                 char buffer[100];

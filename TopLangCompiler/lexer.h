@@ -18,10 +18,10 @@ namespace top {
         enum TokenType {
             AddOp, SubOp, MulOp, DivOp, AssignOp,
             Int, Float, True, False,
-            Open_Paren, Close_Paren, Colon,
+            Open_Paren, Close_Paren, Colon, Open_Bracket, Close_Bracket,
             Identifier,
             Newline, EndOfFile, Open_Indent, Close_Indent,
-            If, Else, Elif, Pass
+            If, Else, Elif
         };
         
         struct Token {

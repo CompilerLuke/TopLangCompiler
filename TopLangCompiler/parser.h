@@ -18,7 +18,7 @@ namespace top {
     
     namespace parser {
         struct AST {
-            enum ASTType { Operator, Literal, Identifier, Block, Tuple, If, Else, Pass } type;
+            enum ASTType { Operator, Literal, Identifier, Block, Tuple, If, Else } type;
             
             struct OperatorData {
                 OperatorType type;

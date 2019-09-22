@@ -35,7 +35,7 @@ namespace top {
             
             int line = 1;
             
-            static_array<5, string> lines;
+            static_array<6, string> lines;
             bool searching_for_end_of_line = false;
             
             for (int i = 0; i < error->src.length; i++) {
@@ -108,8 +108,6 @@ namespace top {
                     printf("\033[1;31m");
                     printf("%.*s\n", max(error->token_length, 1), "^^^^^^^^^^^^^^^^^^^^^^");
                     printf("\nError[%i]\033[0m : %s\n\n", error->id, mesg);
-                
-                    
                 } else {
                     char buffer[300];
                     to_cstr(lines[i], buffer, 300);

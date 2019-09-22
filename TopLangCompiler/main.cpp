@@ -14,13 +14,21 @@
 #include "parser.h"
 
 #include "error.h"
+#include "file.h"
 
 using namespace top;
 
 int main(int argc, const char * argv[]) {
     // insert code here...
 
-    string input = "10\n20\n30";
+    FILE* file = io::open("main.top", io::FileMode::Read);
+    if (!file) {
+        printf("\033[1;31mCould not read file %s\033[0m\n", "main.top");
+        return 1;
+    }
+    
+    string input = io::read_file(file);
+    io::destroy(file);
     
     printf("========= Compiling =========\n\n");
     
@@ -55,6 +63,7 @@ int main(int argc, const char * argv[]) {
     
     parser::destroy(parser);
     lexer::destroy(lexer);
+    dealloc(MallocAllocator, NULL, input.data);
 
     return 0;
 }

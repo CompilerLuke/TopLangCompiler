@@ -13,6 +13,7 @@
 		A3381B112335584700FA5F22 /* parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3381B0F2335584700FA5F22 /* parser.cpp */; };
 		A3381B142335686E00FA5F22 /* allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3381B122335686E00FA5F22 /* allocator.cpp */; };
 		A3381B172335F66A00FA5F22 /* linear_allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3381B152335F66A00FA5F22 /* linear_allocator.cpp */; };
+		A3381B1B2337AD5100FA5F22 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3381B1A2337AD5100FA5F22 /* file.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +45,9 @@
 		A3381B152335F66A00FA5F22 /* linear_allocator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = linear_allocator.cpp; sourceTree = "<group>"; };
 		A3381B162335F66A00FA5F22 /* linear_allocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = linear_allocator.h; sourceTree = "<group>"; };
 		A3381B182337701500FA5F22 /* helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
+		A3381B192337AD3B00FA5F22 /* file.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = file.h; sourceTree = "<group>"; };
+		A3381B1A2337AD5100FA5F22 /* file.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = file.cpp; sourceTree = "<group>"; };
+		A3381B1C2337AD9B00FA5F22 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,7 @@
 		A3381AED2334B6C300FA5F22 = {
 			isa = PBXGroup;
 			children = (
+				A3381B1C2337AD9B00FA5F22 /* test */,
 				A3381AF82334B6C300FA5F22 /* TopLangCompiler */,
 				A3381AF72334B6C300FA5F22 /* Products */,
 			);
@@ -91,6 +96,8 @@
 				A3381B152335F66A00FA5F22 /* linear_allocator.cpp */,
 				A3381B162335F66A00FA5F22 /* linear_allocator.h */,
 				A3381B182337701500FA5F22 /* helper.h */,
+				A3381B192337AD3B00FA5F22 /* file.h */,
+				A3381B1A2337AD5100FA5F22 /* file.cpp */,
 			);
 			path = TopLangCompiler;
 			sourceTree = "<group>";
@@ -153,6 +160,7 @@
 			files = (
 				A3381B112335584700FA5F22 /* parser.cpp in Sources */,
 				A3381B042334E37D00FA5F22 /* lexer.cpp in Sources */,
+				A3381B1B2337AD5100FA5F22 /* file.cpp in Sources */,
 				A3381B142335686E00FA5F22 /* allocator.cpp in Sources */,
 				A3381AFA2334B6C300FA5F22 /* main.cpp in Sources */,
 				A3381B172335F66A00FA5F22 /* linear_allocator.cpp in Sources */,
