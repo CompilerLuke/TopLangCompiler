@@ -56,7 +56,7 @@ def greet(using person *Person):
 ```scala
 enum HttpErrror = E404 | E300
 
-union Result[Ok, Error] = Ok | Error
+union Result = %Ok | %Error
 
 def http_req(url string) Result[string, HttpError]:
   E404
