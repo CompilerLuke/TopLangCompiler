@@ -20,7 +20,7 @@ import fmt
 struct Thing:
   name string
   
-def foo(thing *mut Thing):
+def foo(thing *Thing): //note * is a mut pointer whilst & is immutable
   thing.name = "Foo"
   
 var thing Thing //unset variable is initialized to zero, and mutable
@@ -44,9 +44,10 @@ person := Person{
   age = none
 }
 
+greet(person) //Person -> &Person is implicit as it's an immutable reference
 person.greet()
 
-def greet(using person *Person):
+def greet(using person &Person):
   if person.age:
     fmt.println("Hello %, who is % old and loves %", name, age, favourite_color)
   else:
@@ -127,7 +128,7 @@ def op_add(a vec[%N], b vec[N]):
   for 0..N:
     res[it] = a[it] + b[it]
    
-def format(buffer *mut StringBuffer, value *vec[3]):
+def format(buffer *StringBuffer, value vec[3]):
   buffer <- "Vec3("
   for 0..3: buffer <- value[it]
   buffer <- ")"
