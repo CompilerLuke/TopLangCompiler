@@ -102,12 +102,13 @@ task.go(pong)
 
 ```scala
 var mut arr [3]int = [10, 20, 30]
-var arr_dyn [..]int
+var arr_dyn [..]int 
 append(arr_dyn, 10)
 append(arr_dyn, 20)
 arr_dyna.append(30)
 
 var arr_slice mut []int = &arr
+arr_slice[1] = 5
 
 for val in arr:
   fmt.println("(%) %", it, val)
@@ -126,7 +127,7 @@ def vec3(float x, float y, float z) vec[3]:
   [x,y,z]
    
 def op_add(a vec[%N], b vec[N]):
-  var mut res vec[N]
+  var res vec[N] //unitialized variables are mutable by default
   for 0..N:
     res[it] = a[it] + b[it]
    
