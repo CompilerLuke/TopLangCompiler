@@ -20,7 +20,7 @@ import fmt
 struct Thing:
   name string
   
-def foo(thing *Thing): //note * is a mut pointer whilst & is immutable
+def foo(thing *mut Thing): 
   thing.name = "Foo"
   
 var thing Thing //unset variable is initialized to zero, and mutable
@@ -38,25 +38,16 @@ struct Person:
   favourite_color Color
   age ?int
 
-person := Person{ //mutable
+person := Person{ 
   name = "Jerry"
   favourite_color = Red
   age = none
 }
 
-person_two :: Person{ //immutable
-  name = "Peter"
-  favourite_color = Blue
-  age = 20
-}
-
-var person_three Person = Person{..} //mutable long hand variable
-let person_four Person = Person{..} //immutable long hand variable
-
 greet(person) //Person -> &Person is implicit as it's an immutable reference
 person_two.greet()
 
-def greet(using person &Person):
+def greet(using person *Person):
   if person.age:
     fmt.println("Hello %, who is % old and loves %", name, age, favourite_color)
   else:
@@ -92,7 +83,7 @@ defer destroy(ch)
 
 def ping():
   while true:
-    fmt.println(<<ch)
+    fmt.println(<-ch)
     ch <- "Ping!"
   
 def pong():
@@ -136,7 +127,7 @@ def op_add(a vec[%N], b vec[N]):
   var res vec[N] 
   for 0..N:
     res[it] = a[it] + b[it]
-   
+
 def format(buffer *StringBuffer, value vec[3]):
   buffer <- "Vec3("
   for 0..3: buffer <- value[it]
