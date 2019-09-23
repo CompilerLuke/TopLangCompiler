@@ -44,7 +44,7 @@ person := Person{
   age = none
 }
 
-greet(person) //Person -> &Person is implicit as it's an immutable reference
+greet(person) //Person -> *Person is implicit as it's an immutable pointer
 person_two.greet()
 
 def greet(using person *Person):
