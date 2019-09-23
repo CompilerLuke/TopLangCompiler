@@ -53,7 +53,7 @@ def greet(using person *Person):
     fmt.println("% does not want to disclose his age", name)
 ```
 
-```
+```scala
 from math import vec3, quat
 
 struct Translate:
@@ -78,7 +78,7 @@ if gizmo is Translate:
   printf("Moving object %", gizmo.position) 
 ```
 
-```
+```scala
 import task
 import fmt
 from channel import *
@@ -100,5 +100,41 @@ task.go(ping)
 task.go(pong)
 ```
 
+```scala
+var mut arr [3]int = [10, 20, 30]
+var arr_dyn [..]int
+append(arr_dyn, 10)
+append(arr_dyn, 20)
+arr_dyna.append(30)
 
+var arr_slice mut []int = &arr
+
+for val in arr:
+  fmt.println("(%) %", it, val)
+
+for arr:
+  fmt.println("%", it)
+  
+for i, arr:
+  fmt.println("(%) %", i, arr)
+```
+
+```scala
+type vec[N] [N]float
+
+def vec3(float x, float y, float z) vec[3]:
+  [x,y,z]
+   
+def op_add(a vec[%N], b vec[N]):
+  var mut res vec[N]
+  for 0..N:
+    res[it] = a[it] + b[it]
+   
+def format(buffer *mut StringBuffer, value *vec[3]):
+  buffer.append("Vec3(")
+  for 0..3: buffer.append(value[it])
+  buffer.append(")")
+
+fmt.println("%", vec3(10.0, 5.0, 2.5) + vec3(0.0, 3.0, 8.0))
+```
 
