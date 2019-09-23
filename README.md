@@ -1,4 +1,4 @@
-# TopLangCompiler
+# TopLangCompiler <img src="https://github.com/CodeClubLux/TopCompiler/blob/master/arrow.png" width="40" height="40"> 
 A concise, readable and efficient programming language
 
 # Contributions
