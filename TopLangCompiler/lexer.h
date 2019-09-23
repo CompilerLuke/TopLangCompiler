@@ -16,12 +16,12 @@ namespace top {
     namespace lexer {
         enum TokenGroup { Literal, Operator, Symbol, Terminator, Keyword };
         enum TokenType {
-            AddOp, SubOp, MulOp, DivOp, AssignOp,
+            AddOp, SubOp, MulOp, DivOp, AssignOp, InOp,
             Int, Float, True, False,
-            Open_Paren, Close_Paren, Colon, Open_Bracket, Close_Bracket,
+            Open_Paren, Close_Paren, Colon, Open_Bracket, Close_Bracket, Comma,
             Identifier,
             Newline, EndOfFile, Open_Indent, Close_Indent,
-            If, Else, Elif
+            If, Else, Elif, While, For, Def, IntType
         };
         
         struct Token {

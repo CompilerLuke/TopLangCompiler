@@ -96,20 +96,79 @@ namespace top {
             return ast;
         }
         
+        bool continue_tuple(Parser& parser) {
+            if (parser.token->type == lexer::Close_Paren) {
+                next(parser);
+                return false;
+            }
+            expect_advance(parser, lexer::Symbol, lexer::Comma, error::SyntaxError, "Syntax Error", "Expecting , or )");
+            return true;
+        }
+        
         AST* tuple(Parser& parser, lexer::Token* token) {
             AST* ast = make_node(parser, AST::Tuple);
-            array_add(ast->children, expression(parser, ignore_both));
             
-            expect_advance(parser, lexer::Symbol, lexer::Close_Paren, error::SyntaxError, "Syntax Error", "Expecting )");
+            while (true) {
+                array_add(ast->children, expression(parser, ignore_both));
+                if (!continue_tuple(parser)) break;
+            }
             return ast;
         }
         
-        void error_missing_pass(Parser& parser, lexer::Token* token) {
-            make_parse_error(parser, token, error::SyntaxError, "Syntax Error", "Expecting keyword pass");
+        lexer::Token* expect_identifier(Parser& parser) {
+            lexer::Token* t = parser.token;
+            expect_advance(parser, lexer::Symbol, lexer::Identifier, error::SyntaxError, "Syntax Error", "Expecting identifier for name");
+            if (parse_error(parser)) return NULL;
+            return t;
+        }
+        
+        AST* var_decl(Parser& parser, lexer::Token* token) {
+            AST* ast = make_node(parser, AST::VarDecl);
+            lexer::Token* name = expect_identifier(parser);
+            if (!name) return NULL;
+            ast->var_decl.name = name->value;
+            ast->var_decl.type = expression(parser, false);
+            
+            return ast;
         }
         
         void expect_colon(Parser& parser) {
             expect_advance(parser, lexer::Symbol, lexer::Colon, error::SyntaxError, "Syntax Error", "Expecting :");
+        }
+        
+        AST* func_def(Parser& parser, lexer::Token* token) {
+            AST* ast = make_node(parser, AST::Func);
+            lexer::Token* name = expect_identifier(parser);
+            if (!name) return NULL;
+            ast->func.name = name->value;
+            
+            expect_advance(parser, lexer::Symbol, lexer::Open_Paren, error::SyntaxError, "Syntax Error", "Expecting (");
+            
+            while (true) {
+                if (parser.token->type == lexer::Close_Paren) { //Empty Arguments
+                    next(parser);
+                    break;
+                }
+                
+                array_add(ast->func.args, var_decl(parser, parser.token));
+                if (parse_error(parser)) return NULL;
+                if (!continue_tuple(parser)) break;
+                if (parse_error(parser)) return NULL;
+            }
+            
+            if (parser.token->type != lexer::Colon) {
+                ast->func.return_type = expression(parser, false);
+                if (parse_error(parser)) return NULL;
+            }
+            expect_colon(parser);
+            
+            ast->func.body = expression(parser, false);
+            
+            return ast;
+        }
+        
+        void error_missing_pass(Parser& parser, lexer::Token* token) {
+            make_parse_error(parser, token, error::SyntaxError, "Syntax Error", "Expecting {} to mark empty body");
         }
         
         AST* else_expr(Parser& parser, lexer::Token* token) {
@@ -166,6 +225,27 @@ namespace top {
             return ast;
         }
         
+        AST* while_loop(Parser& parser, lexer::Token* token) {
+            AST* ast = make_node(parser, AST::While);
+            
+            ast->loop.condition = expression(parser, ignore_newline);
+            expect_colon(parser);
+            if (parser.token->type == lexer::Newline || parse_error(parser)) {
+                error_missing_pass(parser, parser.token);
+                return NULL;
+            }
+
+            
+            ast->loop.body = expression(parser, false);
+            return ast;
+        }
+        
+        AST* for_loop(Parser& parser, lexer::Token* token) {
+            AST* ast = while_loop(parser, token);
+            if (ast) ast->type = AST::For;
+            return ast;
+        }
+        
         AST* block(Parser& parser, lexer::Token* token) {
             AST* ast = make_node(parser, AST::Block);
             
@@ -179,6 +259,12 @@ namespace top {
                 }
             }
             
+            if (ast->children.length == 1 && ast->children[0]->type == AST::Block) {
+                AST* child = ast->children[0];
+                ast->children = child->children;
+                destroy_node(parser, child);
+            }
+            
             next(parser);
             
             return ast;
@@ -188,6 +274,20 @@ namespace top {
             AST* ast = make_node(parser, AST::Literal);
             ast->literal.type = AST::LiteralData::Bool;
             ast->literal.boolean = token->type == lexer::True;
+            return ast;
+        }
+        
+        AST* int_type(Parser& parser, lexer::Token* token) {
+            return make_node(parser, AST::IntType);
+        }
+        
+        AST* func_call(Parser& parser, lexer::Token* token, AST* func) {
+            AST* ast = make_node(parser, AST::FuncCall);
+            ast->func_call.func = func;
+            
+            AST* args = tuple(parser, token);
+            ast->func_call.args = args->children;
+            destroy_node(parser, args);
             return ast;
         }
         
@@ -210,6 +310,10 @@ namespace top {
                     make_parse_error(parser, parser.token, error::SyntaxError, "Syntax Error", "(Help) You probably forgot an if statement");
                     return NULL;
                 }
+                if (token->type == lexer::For) return for_loop(parser, token);
+                if (token->type == lexer::While) return while_loop(parser, token);
+                if (token->type == lexer::Def) return func_def(parser, token);
+                if (token->type == lexer::IntType) return int_type(parser, token);
             }
             
             if (token->group == lexer::Terminator) {
@@ -221,7 +325,7 @@ namespace top {
                 make_parse_error(parser, token, error::SyntaxError, "Syntax Error", "Operator does not support unary");
             }
             
-            make_parse_error(parser, token, error::SyntaxError, "SyntaxError", "Could not parse syntax");
+            make_parse_error(parser, token, error::SyntaxError, "SyntaxError", "Unexpected token");
             return NULL;
         }
         
@@ -235,7 +339,11 @@ namespace top {
                 return ast;
             }
             
-            make_parse_error(parser, token, error::SyntaxError, "SyntaxError", "Could not parse syntax");
+            if (token->group == lexer::Symbol) {
+                if (token->type == lexer::Open_Paren) return func_call(parser, token, left);
+            }
+            
+            make_parse_error(parser, token, error::SyntaxError, "SyntaxError", "Unexpected token");
             
             return NULL;
         }
@@ -301,10 +409,11 @@ namespace top {
             AST* ast = pool_alloc(parser.pool);
             ast->type = type;
             
-            if (ast->type == AST::Block) {
+            if (ast->type == AST::Block || ast->type == AST::Tuple) {
                 ast->children.allocator = LinearAllocator;
                 ast->children.allocator_data = &parser.linear_allocator;
             }
+            
             return ast;
         }
         
@@ -338,7 +447,8 @@ namespace top {
                 if (ast->op.type == OperatorType::Mul) printf(" * ");
                 if (ast->op.type == OperatorType::Div) printf(" / ");
                 if (ast->op.type == OperatorType::Assign) printf(" = ");
-                
+                if (ast->op.type == OperatorType::In) printf(" in ");
+                    
                 dump_ast(ast->op.right, indent);
             }
             
@@ -388,6 +498,57 @@ namespace top {
                     
                     dump_ast(ast->if_expr.or_else, indent);
                 }
+            }
+            
+            if (ast->type == AST::FuncCall) {
+                dump_ast(ast->func_call.func, indent);
+                printf("(");
+                for (int i = 0; i < ast->func_call.args.length; i++) {
+                    dump_ast(ast->func_call.args[i], indent);
+                    if (i + 1 < ast->func_call.args.length) printf(",");
+                }
+                printf(")");
+            }
+            
+            if (ast->type == AST::IntType) {
+                printf("int");
+            }
+            
+            if (ast->type == AST::VarDecl) {
+                char buffer[100];
+                to_cstr(ast->var_decl.name, buffer, 100);
+                printf("%s ", buffer);
+                dump_ast(ast->var_decl.type, indent);
+            }
+            
+            if (ast->type == AST::Func) {
+                char buffer[100];
+                to_cstr(ast->func.name, buffer, 100);
+                printf("def %s(", buffer);
+                
+                for (int i = 0; i < ast->func.args.length; i++) {
+                    dump_ast(ast->func.args[i], indent);
+                    if (i + 1 < ast->func.args.length) printf(",");
+                }
+                printf(") ");
+                
+                if (ast->func.return_type) dump_ast(ast->func.return_type, indent);
+                printf(":");
+                dump_ast(ast->func.body, indent);
+            }
+            
+            if (ast->type == AST::While) {
+                printf("while ");
+                dump_ast(ast->loop.condition, indent);
+                printf(" : ");
+                dump_ast(ast->loop.body, indent);
+            }
+            
+            if (ast->type == AST::For) {
+                printf("for ");
+                dump_ast(ast->loop.condition, indent);
+                printf(" : ");
+                dump_ast(ast->loop.body, indent);
             }
             
             if (ast->type == AST::Else) {

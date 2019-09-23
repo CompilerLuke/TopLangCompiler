@@ -69,6 +69,11 @@ namespace top {
             else if (lexer.tok == "else") { add_tok(lexer, Keyword, Else, 0); }
             else if (lexer.tok == "true") { add_tok(lexer, Literal, True, 0); }
             else if (lexer.tok == "false") { add_tok(lexer, Literal, False, 0); }
+            else if (lexer.tok == "while") { add_tok(lexer, Keyword, While, 0); }
+            else if (lexer.tok == "for") { add_tok(lexer, Keyword, For, 0); }
+            else if (lexer.tok == "in") { add_tok(lexer, Operator, InOp, 5); }
+            else if (lexer.tok == "def") { add_tok(lexer, Keyword, Def, 0); }
+            else if (lexer.tok == "int") { add_tok(lexer, Keyword, IntType, 0); }
             else if (is_int(lexer.tok)) { add_tok(lexer, Literal, Int, 0, true); }
             else if (is_identifier(lexer.tok)) { add_tok(lexer, Symbol, Identifier, 0, true); }
             else {
@@ -102,7 +107,6 @@ namespace top {
             unsigned int lbp;
         };
     
-        
         void lex(Lexer& lexer, string input, string filename, error::Error* err) {
             lexer.input = input;
             lexer.filename = filename;
@@ -113,11 +117,12 @@ namespace top {
             
             Delimitter delimitters[256] = {};
             
-            delimitters['('] = { true, Symbol, Open_Paren, 0 };
+            delimitters['('] = { true, Symbol, Open_Paren, 6 };
             delimitters[')'] = { true, Symbol, Close_Paren, 0 };
             delimitters[':'] = { true, Symbol, Colon, 0 };
             delimitters['{'] = { true, Symbol, Open_Bracket, 0 };
             delimitters['}'] = { true, Symbol, Close_Bracket, 0};
+            delimitters[','] = { true, Symbol, Comma, 0};
             
             delimitters['+'] = { true, Operator, AddOp, 10 };
             delimitters['-'] = { true, Operator, SubOp, 10 };
@@ -182,7 +187,7 @@ namespace top {
                                 lexer.err->src = lexer.input;
                                 lexer.err->line = lexer.line;
                                 lexer.err->token_length = indent_off;
-                                
+
                             }
                         }
                         
@@ -231,6 +236,7 @@ namespace top {
             if (token.type == lexer::Float) type = "float";
             if (token.type == lexer::Open_Paren) type = "(";
             if (token.type == lexer::Close_Paren) type = ")";
+            if (token.type == lexer::Comma) type = ",";
             if (token.type == lexer::Colon) type = ":";
             if (token.type == lexer::Newline) type = "Newline";
             if (token.type == lexer::EndOfFile) type = "EOF";
@@ -238,12 +244,17 @@ namespace top {
             if (token.type == lexer::If) type = "if";
             if (token.type == lexer::Elif) type = "elif";
             if (token.type == lexer::Else) type = "else";
+            if (token.type == lexer::While) type = "while";
+            if (token.type == lexer::For) type = "for";
+            if (token.type == lexer::InOp) type = "in";
             if (token.type == lexer::Open_Indent) type = "OpenIndent";
             if (token.type == lexer::Close_Indent) type = "CloseIndent";
             if (token.type == lexer::True) type = "true";
             if (token.type == lexer::False) type = "false";
             if (token.type == lexer::Open_Bracket) type = "{";
             if (token.type == lexer::Close_Bracket) type = "}";
+            if (token.type == lexer::Def) type = "def";
+            if (token.type == lexer::IntType) type = "int";
             
             if (token.value.length) {
                 char buffer[100];

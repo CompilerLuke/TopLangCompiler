@@ -1,7 +1,2 @@
-if true: {}
-
-10 + 5
-{
-    50
-        50
-}
+def func(x int):
+    x + 20
