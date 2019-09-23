@@ -12,7 +12,7 @@ Now the language aims to smooth complex systems development which require iterat
 
 This is still very early in the development of the language and currently on parsing is actually implemented.
 
-# Examples
+# Examples (Warning these don't actually compile, but it is my target)
 
 ```scala
 import fmt
@@ -134,5 +134,34 @@ def format(buffer *StringBuffer, value vec[3]):
   buffer <- ")"
 
 fmt.println("%", vec3(10.0, 5.0, 2.5) + vec3(0.0, 3.0, 8.0))
+```
+
+```go
+struct SOA Entity:
+  layermask uint 
+  enabled bool
+
+struct SOA Transform:
+  using entity *mut Entity
+  position Vec3
+  rotation Quat
+  scale Vec3
+  
+struct SOA Ball:
+  using transform *mut Transform
+  speed float
+  
+var entity_pool MemoryPool[Entity]
+var transform_pool MemoryPool[Transform]
+var ball_pool MemoryPool[Ball]
+
+entity := pool_alloc(entity_pool)
+trans := pool_alloc(transform_pool)
+trans.entity = entity
+
+ball := pool_alloc(ball_pool)
+ball.trans = trans
+ball.speed = 10.4
+  
 ```
 
