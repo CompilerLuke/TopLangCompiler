@@ -12,7 +12,7 @@ Now the language aims to smooth complex systems development which require iterat
 
 This is still very early in the development of the language and currently on parsing is actually implemented.
 
-# Examples
+# Examples (Warning these don't actually compile, but it is my target)
 
 ```scala
 import fmt
