@@ -4,7 +4,7 @@ A concise, readable and efficient programming language
 # Philosphy
 This programming language is a systems programming language targeted for high performance game engine development. Although it it is aimed at a simmilar field to c++, the language shares the c philsophy of simplicity and control over C++'s just add more features and abstractions. 
 
-For these reasons garbage collection is out of question due to it's inherent indeterminism and poor control over memory. Furthermore this language does not contain RAII because it hides memory allocation, promotes allocating single objects, resulting in poor cache performance and adds tremendous complexity to the language, ie move semantics, l-values and r-values. In addition exceptions will not be supported, because they obfuscate program control flow, make manual memory mangement extremely difficult and bloat executable size. Top's approach is to use typed unions instead, see below. Furthermore inheritance and virtual functions are not present as they result inefficient code and brittle class hiearchies. Use composition and Data Oriented Design instead, again see below. 
+For these reasons garbage collection is out of question due to it's inherent indeterminism and poor control over memory. Furthermore this language does not contain RAII because it hides memory allocation, promotes allocating single objects, resulting in poor cache performance and adds tremendous complexity to the language, ie move semantics, l-values and r-values. In addition exceptions will not be supported, because they obfuscate program control flow, make manual memory mangement extremely difficult and bloat executable size. Top's approach is to use typed unions instead, see below. Furthermore inheritance and virtual functions are not present as they result in inefficient code and brittle class hiearchies. Use composition and Data Oriented Design instead. 
 
 Now the language aims to smooth complex systems development which require iterative adaptations to get right. Therefore the language tries to minimize buracracy such as having to explictly write variable types, Trait's for generics and encoding ownership through complex type hiararchies. However what the language will have, is support for typed unions, fibers, rapid compilation and compile time execution. Because multi threading is becoming such an integral part of higher performance computing, everything is immutable by default with explicit mutability. In addition capture blocks will restrict a certain block or function to only read or modify, certain variables.
 
@@ -54,28 +54,22 @@ def greet(using person *Person):
 ```
 
 ```scala
-from math import vec3, quat
+enum HttpErrror = E404 | E300
 
-struct Translate:
-  position Vec3
-  
-struct Rotate:
-  rotation Vec3
-  
-struct Scale:
-  scale Vec3
+union Result[Ok, Error] = Ok | Error
 
-union GizmoState = Translate | 
+def http_req(url string) Result[string, HttpError]:
+  E404
 
-struct Gizmo:
-  using gizmo_state GizmoState
-  
-gizmo := Gizmo{
-  gizmo_state = Translate{ vec3() }
-}
-
-if gizmo is Translate:
-  printf("Moving object %", gizmo.position) 
+match http_req("cat_gifs"):
+  res is Ok: fmt.println("Got back %", res)
+  err is Error: fmt.println("Got error %")
+    
+resp := http_req("cat_gifs")
+if resp is Ok:
+  fmt.println("Got back %", resp)
+else:
+  fmt.println("Got error %", resp)
 ```
 
 ```scala
