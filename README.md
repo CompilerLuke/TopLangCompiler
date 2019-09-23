@@ -38,14 +38,23 @@ struct Person:
   favourite_color Color
   age ?int
 
-person := Person{
+person := Person{ //mutable
   name = "Jerry"
   favourite_color = Red
   age = none
 }
 
+person_two :: Person{ //immutable
+  name = "Peter"
+  favourite_color = Blue
+  age = 20
+}
+
+var person_three Person = Person{..} //mutable long hand variable
+let person_four Person = Person{..}
+
 greet(person) //Person -> &Person is implicit as it's an immutable reference
-person.greet()
+person_two.greet()
 
 def greet(using person &Person):
   if person.age:
