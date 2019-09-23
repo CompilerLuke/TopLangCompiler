@@ -414,6 +414,11 @@ namespace top {
                 ast->children.allocator_data = &parser.linear_allocator;
             }
             
+            if (ast->type == AST::Func) {
+                ast->func.args.allocator = LinearAllocator;
+                ast->func.args.allocator_data = &parser.linear_allocator;
+            }
+            
             return ast;
         }
         
