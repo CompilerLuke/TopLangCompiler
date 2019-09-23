@@ -7,13 +7,18 @@
 //
 
 #include "linear_allocator.h"
+#include <stdio.h>
 
 namespace top {
     void* LinearAllocator(void* allocator_data, AllocationType type, void* ptr, size_t size, size_t old_size) { //todo respect alignment
         struct LinearAllocator* allocator = (struct LinearAllocator*)allocator_data;
         
         if (type == AllocationType::Alloc) {
-            assert(size < allocator->block_size);
+            if (size > allocator->block_size) {
+                void* ptr = malloc(size);
+                array_add(allocator->used_blocks, ptr); //todo utilise all the space allocated when block is returned
+                return ptr;
+            }
             
             if (allocator->used_blocks.length > 0) {
                 size_t space_left = allocator->used_blocks.length * allocator->block_size;

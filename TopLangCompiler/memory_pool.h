@@ -35,11 +35,11 @@ namespace top {
         for (int i = 0; i < N - 1; i++) {
             block.slots[i].next = &block.slots[i + 1];
         }
-        if (!pool.next) {
-            block.slots[N - 1].next = &block.slots[0];
-        } else {
-            block.slots[N - 1].next = pool.next;
-        }
+        //if (!pool.next) {
+        block.slots[N - 1].next = NULL;
+        //} else {
+        //    block.slots[N - 1].next = pool.next;
+        //}
         pool.next = &block.slots[0];
         
         block.next = pool.block;
@@ -60,6 +60,7 @@ namespace top {
             if (pool.allocator == NULL) {
                 pool.allocator = MallocAllocator;
             }
+            
             make_block(pool, *alloc<typename MemoryPool<N, T>::MemoryBlock>(pool.allocator, pool.allocator_data));
         }
        
