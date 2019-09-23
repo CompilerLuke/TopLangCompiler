@@ -51,7 +51,7 @@ person_two :: Person{ //immutable
 }
 
 var person_three Person = Person{..} //mutable long hand variable
-let person_four Person = Person{..}
+let person_four Person = Person{..} //immutable long hand variable
 
 greet(person) //Person -> &Person is implicit as it's an immutable reference
 person_two.greet()
