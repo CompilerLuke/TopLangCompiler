@@ -139,7 +139,7 @@ fmt.println("%", vec3(10.0, 5.0, 2.5) + vec3(0.0, 3.0, 8.0))
 ```go
 struct SOA Entity:
   layermask uint 
-  bool enabled
+  enabled bool
 
 struct SOA Transform:
   using entity *mut Entity
