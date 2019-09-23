@@ -1,5 +1,8 @@
-# TopLangCompiler <img src="https://github.com/CodeClubLux/TopCompiler/blob/master/arrow.png" width="40" height="40"> 
-A concise, readable and efficient programming language
+# Top Language <img src="https://github.com/CodeClubLux/TopCompiler/blob/master/arrow.png" width="40" height="40"> 
+
+A concise, readable and efficient programming language.
+
+T.O.P - thread oriented programming
 
 # Contributions
 
