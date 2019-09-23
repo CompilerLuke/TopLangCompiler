@@ -23,7 +23,7 @@ struct Thing:
 def foo(thing *mut Thing):
   thing.name = "Foo"
   
-var mut thing Thing
+var thing Thing //unset variable is initialized to zero, and mutable
 foo(&thing)
 thing.foo()
 
@@ -121,7 +121,7 @@ def vec3(float x, float y, float z) vec[3]:
   [x,y,z]
    
 def op_add(a vec[%N], b vec[N]):
-  var res vec[N] //unitialized variables are mutable by default
+  var res vec[N] 
   for 0..N:
     res[it] = a[it] + b[it]
    
