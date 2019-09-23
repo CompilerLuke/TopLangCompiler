@@ -56,7 +56,7 @@ def greet(using person *Person):
 ```scala
 enum HttpErrror = E404 | E300
 
-union Result = %Ok | %Error
+union Result[Ok, Error] = Ok | Error
 
 def http_req(url string) Result[string, HttpError]:
   E404
@@ -97,9 +97,11 @@ task.go(pong)
 ```scala
 var mut arr [3]int = [10, 20, 30]
 var arr_dyn [..]int 
+defer destroy(arr_dyn)
+
 append(arr_dyn, 10)
 append(arr_dyn, 20)
-arr_dyna.append(30)
+arr_dyn.append(30)
 
 var arr_slice mut []int = &arr
 arr_slice[1] = 5
