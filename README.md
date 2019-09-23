@@ -14,7 +14,7 @@ This is still very early in the development of the language and currently on par
 
 # Examples
 
-```python
+```scala
 import fmt
 
 struct Thing:
@@ -30,7 +30,7 @@ thing.foo()
 fmt.println("Hello %", thing.name) 
 ```
 
-```python
+```scala
 enum Color = Red | Green | Blue
 
 struct Person:
@@ -53,6 +53,52 @@ def greet(using person *Person):
     fmt.println("% does not want to disclose his age", name)
 ```
 
+```
+from math import vec3, quat
+
+struct Translate:
+  position Vec3
+  
+struct Rotate:
+  rotation Vec3
+  
+struct Scale:
+  scale Vec3
+
+union GizmoState = Translate | 
+
+struct Gizmo:
+  using gizmo_state GizmoState
+  
+gizmo := Gizmo{
+  gizmo_state = Translate{ vec3() }
+}
+
+if gizmo is Translate:
+  printf("Moving object %", gizmo.position) 
+```
+
+```
+import task
+import fmt
+from channel import *
+
+mut ch := chan(string)
+defer destroy(ch)
+
+def ping():
+  while true:
+    fmt.println(<<ch)
+    ch << "Ping!"
+  
+def pong():
+  while true:
+    ch << "Pong!"
+    fmt.println(<<ch)
+    
+task.go(ping)
+task.go(pong)
+```
 
 
 
