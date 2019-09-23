@@ -44,7 +44,7 @@ int main(int argc, const char * argv[]) {
     }
     
     for (int i = 0; i < len(lexer.tokens); i++) {
-    //    lexer::print_token(lexer.tokens[i]);
+        lexer::print_token(lexer.tokens[i]);
     }
     
     parser::Parser parser;
@@ -57,7 +57,7 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
     
-    //parser::dump_ast(parser);
+    parser::dump_ast(parser);
     
     printf("Occupied bytes: %lu\n", parser.linear_allocator.occupied);
     
