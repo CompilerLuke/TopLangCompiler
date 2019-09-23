@@ -83,12 +83,12 @@ defer destroy(ch)
 def ping():
   while true:
     fmt.println(<<ch)
-    ch << "Ping!"
+    ch <- "Ping!"
   
 def pong():
   while true:
-    ch << "Pong!"
-    fmt.println(<<ch)
+    ch <- "Pong!"
+    fmt.println(<-ch)
     
 task.go(ping)
 task.go(pong)
@@ -126,9 +126,9 @@ def op_add(a vec[%N], b vec[N]):
     res[it] = a[it] + b[it]
    
 def format(buffer *mut StringBuffer, value *vec[3]):
-  buffer.append("Vec3(")
-  for 0..3: buffer.append(value[it])
-  buffer.append(")")
+  buffer <- "Vec3("
+  for 0..3: buffer <- value[it]
+  buffer <- ")"
 
 fmt.println("%", vec3(10.0, 5.0, 2.5) + vec3(0.0, 3.0, 8.0))
 ```
