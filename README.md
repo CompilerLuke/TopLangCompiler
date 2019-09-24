@@ -1,5 +1,12 @@
-# TopLangCompiler
-A concise, readable and efficient programming language
+# Top Language <img src="https://github.com/CodeClubLux/TopCompiler/blob/master/arrow.png" width="40" height="40"> 
+
+A concise, readable and efficient programming language.
+
+T.O.P - thread oriented programming
+
+# Contributions
+
+Contributions are welcome! Please read contributions.md for further style information.
 
 # Philosphy
 This programming language is a systems programming language targeted for high performance game engine development. Although it it is aimed at a simmilar field to c++, the language shares the c philsophy of simplicity and control over C++'s just add more features and abstractions. 
