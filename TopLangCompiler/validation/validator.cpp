@@ -8,3 +8,15 @@
 
 
 #include "validator.h"
+
+namespace top {
+    namespace validation {
+        void validate(Validator& validator, parser::Parser* parser) {
+            validator.parser = parser;
+        }
+        
+        void destroy(Validator& validator) {
+            free_array(validator.scopes);
+        }
+    }
+}

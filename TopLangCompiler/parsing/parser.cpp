@@ -341,8 +341,7 @@ namespace top {
             }
             
             if (token->group == lexer::Operator) {
-                
-                make_parse_error(parser, token, error::SyntaxError, "Syntax Error", "Operator does not support unary");
+                make_parse_error(parser, token, error::SyntaxError, "Syntax Error", "Operator does not support unary application");
             }
             
             make_parse_error(parser, token, error::SyntaxError, "SyntaxError", "Unexpected token");

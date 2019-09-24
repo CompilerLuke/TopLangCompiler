@@ -13,6 +13,7 @@
 #include "string.h"
 #include "array.h"
 #include "helper.h"
+#include "linear_allocator.h"
 
 namespace top {
     namespace lexer {
@@ -116,6 +117,7 @@ namespace top {
             array<Delimitter> next_char;
         };
         
+        struct LinearAllocator linear_allocator;
         Delimitter delimitters[256] = {};
         string type_to_string[256] = {};
         
@@ -129,7 +131,11 @@ namespace top {
         }
         
         void add_delimitter(string s, TokenGroup group, TokenType type, unsigned int lbp) {
-            array_add(delimitters[s[0]].next_char, { s[1], true, group, type, lbp });
+            Delimitter& d = delimitters[s[0]];
+            d.next_char.allocator = LinearAllocator;
+            d.next_char.allocator_data = &linear_allocator;
+
+            array_add(d.next_char, { s[1], true, group, type, lbp });
             type_to_string[type] = s;
         }
         
@@ -322,6 +328,10 @@ namespace top {
         
         void destroy(Lexer& lexer) {
             free_array(lexer.tokens);
+        }
+        
+        void destroy() {
+            destroy(linear_allocator);
         }
     }
 }

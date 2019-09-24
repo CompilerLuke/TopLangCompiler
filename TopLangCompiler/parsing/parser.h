@@ -81,6 +81,8 @@ namespace top {
                 FuncData func;
                 AST* mut;
             };
+            
+            struct Type* ast_type;
         };
 
         struct Parser {

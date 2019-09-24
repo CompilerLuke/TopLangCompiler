@@ -52,6 +52,7 @@
 		A3592782233A65A200A60F6E /* validator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = validator.cpp; sourceTree = "<group>"; };
 		A3592783233A65A200A60F6E /* validator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = validator.h; sourceTree = "<group>"; };
 		A3592785233A663900A60F6E /* scope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scope.h; sourceTree = "<group>"; };
+		A359278E233A682B00A60F6E /* type.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = type.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +123,7 @@
 				A3592785233A663900A60F6E /* scope.h */,
 				A3592783233A65A200A60F6E /* validator.h */,
 				A3592782233A65A200A60F6E /* validator.cpp */,
+				A359278E233A682B00A60F6E /* type.h */,
 			);
 			path = validation;
 			sourceTree = "<group>";

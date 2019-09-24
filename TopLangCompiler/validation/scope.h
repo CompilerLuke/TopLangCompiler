@@ -7,3 +7,16 @@
 //
 
 #pragma once
+
+#include "string.h"
+#include "type.h"
+#include "parser.h"
+
+namespace top {
+    namespace validation {
+        struct Scope {
+            array<FuncType*> func_defs;
+            array<Type*> vars;
+        };
+    };
+}

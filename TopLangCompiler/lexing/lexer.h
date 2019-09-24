@@ -54,6 +54,7 @@ namespace top {
         };
         
         void init();
+        void destroy();
         
         string token_type_to_string(TokenType);
         void lex(Lexer& lexer, string input, string filename, error::Error*);

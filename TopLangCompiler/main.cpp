@@ -19,13 +19,18 @@
 using namespace top;
 
 int main(int argc, const char * argv[]) {
+    string filename = "main.top";
+    
     FILE* file = io::open("main.top", io::FileMode::Read);
     if (!file) {
-        printf("\033[1;31mCould not read file %s\033[0m\n", "main.top");
+        printf("\033[1;31mCould not open file '%s'\033[0m\n", filename);
         return 1;
     }
     
     string input = io::read_file(file);
+    if (input.length == 0) {
+        printf("\033[;31mCould not read file '%s'\033[0m\n", filename);
+    }
     io::destroy(file);
     
     printf("========= Compiling =========\n\n");
@@ -35,11 +40,12 @@ int main(int argc, const char * argv[]) {
     lexer::init();
     
     lexer::Lexer lexer;
-    lexer::lex(lexer, input, "<stdin>",  &err);
+    lexer::lex(lexer, input, filename,  &err);
     
     if (error::is_error(&err)) {
         error::log_error(&err);
         lexer::destroy(lexer);
+        lexer::destroy();
         return 1;
     }
     
@@ -54,6 +60,7 @@ int main(int argc, const char * argv[]) {
         error::log_error(&err);
         parser::destroy(parser);
         lexer::destroy(lexer);
+        lexer::destroy();
         return 1;
     }
     
@@ -63,6 +70,7 @@ int main(int argc, const char * argv[]) {
     
     parser::destroy(parser);
     lexer::destroy(lexer);
+    lexer::destroy();
     dealloc(MallocAllocator, NULL, input.data);
 
     return 0;
