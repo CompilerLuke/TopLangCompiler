@@ -250,6 +250,10 @@ namespace top {
             AST* ast = make_node(parser, AST::Block);
             
             while (parser.token->type != lexer::Close_Bracket && parser.token->type != lexer::EndOfFile) {
+                if (parser.token->type == lexer::Newline) {
+                    make_parse_error(parser, next(parser), error::IndentationError, "IndentationError", "Expecting indent");
+                }
+                
                 array_add(ast->children, expression(parser, false));
                 if (parse_error(parser)) return NULL;
                 
