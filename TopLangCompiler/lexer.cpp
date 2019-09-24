@@ -86,14 +86,15 @@ namespace top {
                 char buffer[100];
                 to_cstr(lexer.tok, buffer, 100);
                 
-                lexer.err->mesg = "Invalid token";
-                lexer.err->group = "Lexing";
-                lexer.err->id = error::UnknownToken;
-                lexer.err->column = lexer.column - lexer.tok.length;
-                lexer.err->line = lexer.line;
-                lexer.err->src = lexer.input;
-                lexer.err->filename = lexer.filename;
-                lexer.err->token_length = lexer.tok.length;
+                error::Error* err = lexer.err;
+                err->mesg = "Invalid token";
+                err->group = "Lexing";
+                err->id = error::UnknownToken;
+                err->column = lexer.column - lexer.tok.length;
+                err->line = lexer.line;
+                err->src = lexer.input;
+                err->filename = lexer.filename;
+                err->token_length = lexer.tok.length;
             }
         }
         
@@ -112,6 +113,7 @@ namespace top {
             TokenGroup group;
             TokenType type;
             unsigned int lbp;
+            array<Delimitter> next_char;
         };
         
         Delimitter delimitters[256] = {};
@@ -124,6 +126,11 @@ namespace top {
         void add_delimitter(char c, TokenGroup group, TokenType type, unsigned int lbp) {
             delimitters[c] = { c, true, group, type, lbp };
             type_to_string[type] = { &delimitters[c].c, 1 };
+        }
+        
+        void add_delimitter(string s, TokenGroup group, TokenType type, unsigned int lbp) {
+            array_add(delimitters[s[0]].next_char, { s[1], true, group, type, lbp });
+            type_to_string[type] = s;
         }
         
         void add_keyword(string name, TokenGroup group, TokenType type, unsigned int lbp = 0, bool has_value = false) {
@@ -141,7 +148,10 @@ namespace top {
         void init() {
             add_delimitter('(', Symbol, Open_Paren, 6);
             add_delimitter(')', Symbol, Close_Paren, 0);
+            
             add_delimitter(':', Symbol, Colon, 0);
+            add_delimitter(":=", Operator, ColonAssignOp, 5);
+            
             add_delimitter('{', Symbol, Open_Bracket, 0);
             add_delimitter('}', Symbol, Close_Bracket, 0);
             add_delimitter(',', Symbol, Comma, 0);
@@ -150,7 +160,12 @@ namespace top {
             add_delimitter('-', Operator, SubOp, 10);
             add_delimitter('*', Operator, MulOp, 20);
             add_delimitter('/', Operator, DivOp, 20);
+            
             add_delimitter('=', Operator, AssignOp, 5);
+            add_delimitter("+=", Operator, AddAssignOp, 5);
+            add_delimitter("-=", Operator, SubAssignOp, 5);
+            add_delimitter("*=", Operator, MulAssignOp, 10);
+            add_delimitter("/=", Operator, DivAssignOp, 10);
             
             add_keyword("if", Keyword, If);
             add_keyword("elif", Keyword, Elif);
@@ -162,6 +177,24 @@ namespace top {
             add_keyword("in", Operator, InOp, 5);
             add_keyword("def", Keyword, Def);
             add_keyword("int", Keyword, IntType);
+            add_keyword("mut", Keyword, Mut);
+            add_keyword("var", Keyword, Var);
+        }
+        
+        void match_delimitter(Lexer& lexer, Delimitter& d) {
+            reset_tok(lexer);
+            
+            for (int i = 0; i < d.next_char.length; i++) {
+                bool in_range = lexer.i + 1 < lexer.input.length;
+                if (in_range && lexer.input[lexer.i+1] == d.next_char[i].c) {
+                    add_token(lexer, 2, lexer.column, d.next_char[i].group, d.next_char[i].type, d.next_char[i].lbp);
+                    lexer.column++;
+                    lexer.i++;
+                    return;
+                }
+            }
+            
+            add_token(lexer, 1, lexer.column, d.group, d.type, d.lbp);
         }
     
         void lex(Lexer& lexer, string input, string filename, error::Error* err) {
@@ -245,8 +278,7 @@ namespace top {
                     lexer.column = num_indent - 1;
                 }
                 else if (d.is_delimitter) {
-                    reset_tok(lexer);
-                    add_token(lexer, 1, lexer.column, d.group, d.type, d.lbp);
+                    match_delimitter(lexer, d);
                 }
                 else {
                     lexer.tok.length++;
@@ -274,6 +306,7 @@ namespace top {
             if (token.type == lexer::Newline) type = "Newline";
             if (token.type == lexer::EndOfFile) type = "EOF";
             if (token.type == lexer::Identifier) type = "identifier";
+            if (token.type == lexer::Int) type = "int";
             if (token.type == lexer::Open_Indent) type = "OpenIndent";
             if (token.type == lexer::Close_Indent) type = "CloseIndent";
             

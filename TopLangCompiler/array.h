@@ -46,6 +46,14 @@ namespace top {
         
         DEFINE_SUBSCRIPT()
     };
+    
+    template<typename T>
+    struct slice {
+        T* data;
+        unsigned int length = 0;
+        
+        DEFINE_SUBSCRIPT()
+    };
 
     template<unsigned int N, typename T>
     struct hybrid_array {

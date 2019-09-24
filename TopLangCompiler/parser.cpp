@@ -124,11 +124,25 @@ namespace top {
         
         AST* var_decl(Parser& parser, lexer::Token* token) {
             AST* ast = make_node(parser, AST::VarDecl);
-            lexer::Token* name = expect_identifier(parser);
-            if (!name) return NULL;
-            ast->var_decl.name = name->value;
+            lexer::Token* t = parser.token;
+            if (t->type != lexer::Identifier) {
+                make_parse_error(parser, t, error::SyntaxError, "Syntax Error", "Expecting identifier");
+                return NULL;
+            }
+            ast->var_decl.name = t->value;
+            next(parser);
             ast->var_decl.type = expression(parser, false);
             
+            return ast;
+        }
+        
+        AST* var(Parser& parser, lexer::Token* token) {
+            return var_decl(parser, current(parser));
+        }
+        
+        AST* mut(Parser& parser, lexer::Token* token) {
+            AST* ast = make_node(parser, AST::Mut);
+            ast->mut = expression(parser, false);
             return ast;
         }
         
@@ -318,6 +332,8 @@ namespace top {
                 if (token->type == lexer::While) return while_loop(parser, token);
                 if (token->type == lexer::Def) return func_def(parser, token);
                 if (token->type == lexer::IntType) return int_type(parser, token);
+                if (token->type == lexer::Mut) return mut(parser, token);
+                if (token->type == lexer::Var) return var(parser, token);
             }
             
             if (token->group == lexer::Terminator) {
@@ -453,8 +469,8 @@ namespace top {
                 char buffer[100];
                 to_cstr(lexer::token_type_to_string((lexer::TokenType)ast->op.type), buffer, 100);
                 printf(" %s ", buffer);
-                    
-                dump_ast(ast->op.right, indent);
+                
+                if (ast->op.right) dump_ast(ast->op.right, indent);
             }
             
             if (ast->type == AST::Literal) {
@@ -486,6 +502,7 @@ namespace top {
                 printf("(");
                 for (int i = 0; i < len(ast->children); i++) {
                     dump_ast(ast->children[i], indent);
+                    if (i + 1 < len(ast->children)) printf(", ");
                 }
                 printf(")");
             }
@@ -517,6 +534,11 @@ namespace top {
             
             if (ast->type == AST::IntType) {
                 printf("int");
+            }
+            
+            if (ast->type == AST::Mut) {
+                printf("mut ");
+                dump_ast(ast->mut, indent);
             }
             
             if (ast->type == AST::VarDecl) {

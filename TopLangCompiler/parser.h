@@ -14,11 +14,11 @@
 #include "linear_allocator.h"
 
 namespace top {
-    enum class OperatorType { Add, Sub, Mul, Div, Assign, In };
+    enum class OperatorType { Add, Sub, Mul, Div, Assign, In, ColonAssign, AddAssign, SubAssign, MulAssign, DivAssign };
     
     namespace parser {
         struct AST {
-            enum ASTType { Operator, Literal, Identifier, Block, Tuple, If, Else, While, For, FuncCall, IfType, VarDecl, Func, IntType} type;
+            enum ASTType { Operator, Literal, Identifier, Block, Tuple, If, Else, While, For, FuncCall, IfType, VarDecl, Func, IntType, Mut} type;
             
             struct OperatorData {
                 OperatorType type;
@@ -41,7 +41,6 @@ namespace top {
                 AST* type;
             };
             
-        
             struct FuncData {
                 string name;
                 array<AST*> args;
@@ -80,6 +79,7 @@ namespace top {
                 FuncCallData func_call;
                 VarDeclData var_decl;
                 FuncData func;
+                AST* mut;
             };
         };
 
