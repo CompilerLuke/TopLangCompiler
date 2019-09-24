@@ -152,6 +152,9 @@ namespace top {
         }
         
         void init() {
+            linear_allocator.can_grow = false;
+            linear_allocator.block_size = 1024;
+            
             add_delimitter('(', Symbol, Open_Paren, 6);
             add_delimitter(')', Symbol, Close_Paren, 0);
             

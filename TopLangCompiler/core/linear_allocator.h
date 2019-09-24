@@ -13,7 +13,7 @@
 
 namespace top {
     struct LinearAllocator {
-        const unsigned int block_size = 65536;
+        unsigned int block_size = 65536;
         
         bool can_grow = false;
         

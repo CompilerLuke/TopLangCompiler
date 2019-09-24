@@ -16,6 +16,8 @@ namespace top {
         if (type == AllocationType::Alloc) {
             if (size > allocator->block_size) {
                 void* ptr = malloc(size);
+                
+                assert(allocator->can_grow);
                 array_add(allocator->used_blocks, ptr); //todo utilise all the space allocated when block is returned
                 return ptr;
             }
@@ -25,7 +27,10 @@ namespace top {
                 if (allocator->occupied + size > space_left) {
                     allocator->occupied = allocator->used_blocks.length * allocator->block_size;
                     if (allocator->unused_blocks.length > 0) array_add(allocator->used_blocks, pop(allocator->unused_blocks));
-                    else array_add(allocator->used_blocks, malloc(allocator->block_size));
+                    else {
+                        assert(allocator->can_grow);
+                        array_add(allocator->used_blocks, malloc(allocator->block_size));
+                    }
                 }
             } else {
                 array_add(allocator->used_blocks, malloc(allocator->block_size));
