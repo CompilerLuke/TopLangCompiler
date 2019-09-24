@@ -14,6 +14,7 @@
 		A3381B142335686E00FA5F22 /* allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3381B122335686E00FA5F22 /* allocator.cpp */; };
 		A3381B172335F66A00FA5F22 /* linear_allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3381B152335F66A00FA5F22 /* linear_allocator.cpp */; };
 		A3381B1B2337AD5100FA5F22 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3381B1A2337AD5100FA5F22 /* file.cpp */; };
+		A3592784233A65A200A60F6E /* validator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3592782233A65A200A60F6E /* validator.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,6 +49,9 @@
 		A3381B192337AD3B00FA5F22 /* file.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = file.h; sourceTree = "<group>"; };
 		A3381B1A2337AD5100FA5F22 /* file.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = file.cpp; sourceTree = "<group>"; };
 		A3381B1C2337AD9B00FA5F22 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test; sourceTree = "<group>"; };
+		A3592782233A65A200A60F6E /* validator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = validator.cpp; sourceTree = "<group>"; };
+		A3592783233A65A200A60F6E /* validator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = validator.h; sourceTree = "<group>"; };
+		A3592785233A663900A60F6E /* scope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scope.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,25 +85,92 @@
 		A3381AF82334B6C300FA5F22 /* TopLangCompiler */ = {
 			isa = PBXGroup;
 			children = (
+				A359278D233A66AA00A60F6E /* error */,
+				A359278C233A66A300A60F6E /* core */,
+				A359278B233A667400A60F6E /* llvm */,
+				A359278A233A666700A60F6E /* interpreter */,
+				A3592789233A665B00A60F6E /* mir */,
+				A3592788233A664F00A60F6E /* validation */,
+				A3592787233A664A00A60F6E /* parsing */,
+				A3592786233A664200A60F6E /* lexing */,
 				A3381AF92334B6C300FA5F22 /* main.cpp */,
-				A3381B002334B6E700FA5F22 /* lexer.h */,
+			);
+			path = TopLangCompiler;
+			sourceTree = "<group>";
+		};
+		A3592786233A664200A60F6E /* lexing */ = {
+			isa = PBXGroup;
+			children = (
 				A3381B032334E37D00FA5F22 /* lexer.cpp */,
-				A3381B052334E4B200FA5F22 /* error.cpp */,
-				A3381B062334E4B200FA5F22 /* error.h */,
-				A3381B082334FFF200FA5F22 /* array.h */,
-				A3381B09233516D200FA5F22 /* string.h */,
-				A3381B0E2335222900FA5F22 /* memory_pool.h */,
-				A3381B0F2335584700FA5F22 /* parser.cpp */,
+				A3381B002334B6E700FA5F22 /* lexer.h */,
+			);
+			path = lexing;
+			sourceTree = "<group>";
+		};
+		A3592787233A664A00A60F6E /* parsing */ = {
+			isa = PBXGroup;
+			children = (
 				A3381B102335584700FA5F22 /* parser.h */,
+				A3381B0F2335584700FA5F22 /* parser.cpp */,
+			);
+			path = parsing;
+			sourceTree = "<group>";
+		};
+		A3592788233A664F00A60F6E /* validation */ = {
+			isa = PBXGroup;
+			children = (
+				A3592785233A663900A60F6E /* scope.h */,
+				A3592783233A65A200A60F6E /* validator.h */,
+				A3592782233A65A200A60F6E /* validator.cpp */,
+			);
+			path = validation;
+			sourceTree = "<group>";
+		};
+		A3592789233A665B00A60F6E /* mir */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = mir;
+			sourceTree = "<group>";
+		};
+		A359278A233A666700A60F6E /* interpreter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = interpreter;
+			sourceTree = "<group>";
+		};
+		A359278B233A667400A60F6E /* llvm */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = llvm;
+			sourceTree = "<group>";
+		};
+		A359278C233A66A300A60F6E /* core */ = {
+			isa = PBXGroup;
+			children = (
+				A3381B0E2335222900FA5F22 /* memory_pool.h */,
+				A3381B09233516D200FA5F22 /* string.h */,
+				A3381B082334FFF200FA5F22 /* array.h */,
 				A3381B122335686E00FA5F22 /* allocator.cpp */,
 				A3381B132335686E00FA5F22 /* allocator.h */,
 				A3381B152335F66A00FA5F22 /* linear_allocator.cpp */,
 				A3381B162335F66A00FA5F22 /* linear_allocator.h */,
-				A3381B182337701500FA5F22 /* helper.h */,
 				A3381B192337AD3B00FA5F22 /* file.h */,
 				A3381B1A2337AD5100FA5F22 /* file.cpp */,
+				A3381B182337701500FA5F22 /* helper.h */,
 			);
-			path = TopLangCompiler;
+			path = core;
+			sourceTree = "<group>";
+		};
+		A359278D233A66AA00A60F6E /* error */ = {
+			isa = PBXGroup;
+			children = (
+				A3381B062334E4B200FA5F22 /* error.h */,
+				A3381B052334E4B200FA5F22 /* error.cpp */,
+			);
+			path = error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,6 +233,7 @@
 				A3381B042334E37D00FA5F22 /* lexer.cpp in Sources */,
 				A3381B1B2337AD5100FA5F22 /* file.cpp in Sources */,
 				A3381B142335686E00FA5F22 /* allocator.cpp in Sources */,
+				A3592784233A65A200A60F6E /* validator.cpp in Sources */,
 				A3381AFA2334B6C300FA5F22 /* main.cpp in Sources */,
 				A3381B172335F66A00FA5F22 /* linear_allocator.cpp in Sources */,
 				A3381B072334E4B200FA5F22 /* error.cpp in Sources */,
