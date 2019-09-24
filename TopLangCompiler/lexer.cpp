@@ -63,18 +63,24 @@ namespace top {
             add_token(lexer, lexer.tok.length, lexer.column - lexer.tok.length, group, type, lbp, has_value ? lexer.tok : string());
         }
         
+        struct KeywordDesc {
+            string name;
+            TokenGroup group;
+            TokenType type;
+            unsigned int lbp;
+            bool has_value;
+        };
+        
+        static_array<20, KeywordDesc> keywords;
+        
         void match_token(Lexer& lexer) {
-            if (lexer.tok == "if") { add_tok(lexer, Keyword, If, 0); }
-            else if (lexer.tok == "elif") { add_tok(lexer, Keyword, Elif, 0); }
-            else if (lexer.tok == "else") { add_tok(lexer, Keyword, Else, 0); }
-            else if (lexer.tok == "true") { add_tok(lexer, Literal, True, 0); }
-            else if (lexer.tok == "false") { add_tok(lexer, Literal, False, 0); }
-            else if (lexer.tok == "while") { add_tok(lexer, Keyword, While, 0); }
-            else if (lexer.tok == "for") { add_tok(lexer, Keyword, For, 0); }
-            else if (lexer.tok == "in") { add_tok(lexer, Operator, InOp, 5); }
-            else if (lexer.tok == "def") { add_tok(lexer, Keyword, Def, 0); }
-            else if (lexer.tok == "int") { add_tok(lexer, Keyword, IntType, 0); }
-            else if (is_int(lexer.tok)) { add_tok(lexer, Literal, Int, 0, true); }
+            for (int i = 0; i < keywords.length; i++) {
+                if (lexer.tok == keywords[i].name) {
+                    return add_tok(lexer, keywords[i].group, keywords[i].type, keywords[i].lbp, keywords[i].has_value);
+                }
+            }
+            
+            if (is_int(lexer.tok)) { add_tok(lexer, Literal, Int, 0, true); }
             else if (is_identifier(lexer.tok)) { add_tok(lexer, Symbol, Identifier, 0, true); }
             else {
                 char buffer[100];
@@ -101,11 +107,62 @@ namespace top {
         }
         
         struct Delimitter {
+            char c;
             bool is_delimitter;
             TokenGroup group;
             TokenType type;
             unsigned int lbp;
         };
+        
+        Delimitter delimitters[256] = {};
+        string type_to_string[256] = {};
+        
+        string token_type_to_string(TokenType type) {
+            return type_to_string[(unsigned int)type];
+        }
+        
+        void add_delimitter(char c, TokenGroup group, TokenType type, unsigned int lbp) {
+            delimitters[c] = { c, true, group, type, lbp };
+            type_to_string[type] = { &delimitters[c].c, 1 };
+        }
+        
+        void add_keyword(string name, TokenGroup group, TokenType type, unsigned int lbp = 0, bool has_value = false) {
+            KeywordDesc desc = {};
+            desc.name = name;
+            desc.group = group;
+            desc.type = type;
+            desc.lbp = lbp;
+            desc.has_value = has_value;
+            
+            array_add(keywords, desc);
+            type_to_string[type] = name;
+        }
+        
+        void init() {
+            add_delimitter('(', Symbol, Open_Paren, 6);
+            add_delimitter(')', Symbol, Close_Paren, 0);
+            add_delimitter(':', Symbol, Colon, 0);
+            add_delimitter('{', Symbol, Open_Bracket, 0);
+            add_delimitter('}', Symbol, Close_Bracket, 0);
+            add_delimitter(',', Symbol, Comma, 0);
+            
+            add_delimitter('+', Operator, AddOp, 10);
+            add_delimitter('-', Operator, SubOp, 10);
+            add_delimitter('*', Operator, MulOp, 20);
+            add_delimitter('/', Operator, DivOp, 20);
+            add_delimitter('=', Operator, AssignOp, 5);
+            
+            add_keyword("if", Keyword, If);
+            add_keyword("elif", Keyword, Elif);
+            add_keyword("else", Keyword, Else);
+            add_keyword("true", Literal, True);
+            add_keyword("false", Literal, False, 0);
+            add_keyword("while", Keyword, While, 0);
+            add_keyword("for", Keyword, For, 0);
+            add_keyword("in", Operator, InOp, 5);
+            add_keyword("def", Keyword, Def);
+            add_keyword("int", Keyword, IntType);
+        }
     
         void lex(Lexer& lexer, string input, string filename, error::Error* err) {
             lexer.input = input;
@@ -114,21 +171,6 @@ namespace top {
             lexer.tok.data = lexer.input.data;
             lexer.err = err;
             lexer.line = 1;
-            
-            Delimitter delimitters[256] = {};
-            
-            delimitters['('] = { true, Symbol, Open_Paren, 6 };
-            delimitters[')'] = { true, Symbol, Close_Paren, 0 };
-            delimitters[':'] = { true, Symbol, Colon, 0 };
-            delimitters['{'] = { true, Symbol, Open_Bracket, 0 };
-            delimitters['}'] = { true, Symbol, Close_Bracket, 0};
-            delimitters[','] = { true, Symbol, Comma, 0};
-            
-            delimitters['+'] = { true, Operator, AddOp, 10 };
-            delimitters['-'] = { true, Operator, SubOp, 10 };
-            delimitters['*'] = { true, Operator, MulOp, 20 };
-            delimitters['/'] = { true, Operator, DivOp, 20 };
-            delimitters['='] = { true, Operator, AssignOp, 5};
             
             for (lexer.i = 0; lexer.i < lexer.input.length; lexer.i++, lexer.column++) {
                 char c = lexer.input[lexer.i];
@@ -227,34 +269,13 @@ namespace top {
             if (token.group == lexer::Terminator) group = "terminator";
             if (token.group == lexer::Keyword) group = "keyword";
             
-            if (token.type == lexer::AddOp) type = "+";
-            if (token.type == lexer::SubOp) type = "-";
-            if (token.type == lexer::MulOp) type = "*";
-            if (token.type == lexer::DivOp) type = "/";
-            if (token.type == lexer::AssignOp) type = "=";
-            if (token.type == lexer::Int) type = "int";
-            if (token.type == lexer::Float) type = "float";
-            if (token.type == lexer::Open_Paren) type = "(";
-            if (token.type == lexer::Close_Paren) type = ")";
-            if (token.type == lexer::Comma) type = ",";
-            if (token.type == lexer::Colon) type = ":";
+            string tok = token_type_to_string(token.type);
+            if (tok.length > 0) type = tok.data;
             if (token.type == lexer::Newline) type = "Newline";
             if (token.type == lexer::EndOfFile) type = "EOF";
             if (token.type == lexer::Identifier) type = "identifier";
-            if (token.type == lexer::If) type = "if";
-            if (token.type == lexer::Elif) type = "elif";
-            if (token.type == lexer::Else) type = "else";
-            if (token.type == lexer::While) type = "while";
-            if (token.type == lexer::For) type = "for";
-            if (token.type == lexer::InOp) type = "in";
             if (token.type == lexer::Open_Indent) type = "OpenIndent";
             if (token.type == lexer::Close_Indent) type = "CloseIndent";
-            if (token.type == lexer::True) type = "true";
-            if (token.type == lexer::False) type = "false";
-            if (token.type == lexer::Open_Bracket) type = "{";
-            if (token.type == lexer::Close_Bracket) type = "}";
-            if (token.type == lexer::Def) type = "def";
-            if (token.type == lexer::IntType) type = "int";
             
             if (token.value.length) {
                 char buffer[100];

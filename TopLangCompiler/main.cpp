@@ -19,8 +19,6 @@
 using namespace top;
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-
     FILE* file = io::open("main.top", io::FileMode::Read);
     if (!file) {
         printf("\033[1;31mCould not read file %s\033[0m\n", "main.top");
@@ -33,6 +31,8 @@ int main(int argc, const char * argv[]) {
     printf("========= Compiling =========\n\n");
     
     error::Error err;
+    
+    lexer::init();
     
     lexer::Lexer lexer;
     lexer::lex(lexer, input, "<stdin>",  &err);

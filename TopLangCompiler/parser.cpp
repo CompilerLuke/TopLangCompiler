@@ -446,13 +446,9 @@ namespace top {
         void dump_ast(AST* ast, int indent = 0) {
             if (ast->type == AST::Operator) {
                 dump_ast(ast->op.left, indent);
-                
-                if (ast->op.type == OperatorType::Add) printf(" + ");
-                if (ast->op.type == OperatorType::Sub) printf(" - ");
-                if (ast->op.type == OperatorType::Mul) printf(" * ");
-                if (ast->op.type == OperatorType::Div) printf(" / ");
-                if (ast->op.type == OperatorType::Assign) printf(" = ");
-                if (ast->op.type == OperatorType::In) printf(" in ");
+                char buffer[100];
+                to_cstr(lexer::token_type_to_string((lexer::TokenType)ast->op.type), buffer, 100);
+                printf(" %s ", buffer);
                     
                 dump_ast(ast->op.right, indent);
             }

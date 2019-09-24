@@ -21,10 +21,9 @@ namespace top {
             return data[i];
         }
         
-        bool operator==(const char* other) {
-            unsigned int len = strlen(other);
-            if (len != length) return false;
-            return strncmp(data, other, len) == 0;
+        bool operator==(string other) {
+            if (other.length != length) return false;
+            return strncmp(data, other.data, length) == 0;
         }
         
         inline string() {}
