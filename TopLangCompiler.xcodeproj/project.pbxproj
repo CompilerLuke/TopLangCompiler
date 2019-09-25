@@ -14,6 +14,10 @@
 		A3381B142335686E00FA5F22 /* allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3381B122335686E00FA5F22 /* allocator.cpp */; };
 		A3381B172335F66A00FA5F22 /* linear_allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3381B152335F66A00FA5F22 /* linear_allocator.cpp */; };
 		A3381B1B2337AD5100FA5F22 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3381B1A2337AD5100FA5F22 /* file.cpp */; };
+		A358B1D0233B71FE00EE72A2 /* scope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A358B1CF233B71FE00EE72A2 /* scope.cpp */; };
+		A358B1D2233B7B4B00EE72A2 /* type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A358B1D1233B7B4B00EE72A2 /* type.cpp */; };
+		A358B1D5233BB18300EE72A2 /* mir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A358B1D4233BB18300EE72A2 /* mir.cpp */; };
+		A358B1D8233BCFE700EE72A2 /* interpreter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A358B1D6233BCFE700EE72A2 /* interpreter.cpp */; };
 		A3592784233A65A200A60F6E /* validator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3592782233A65A200A60F6E /* validator.cpp */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +53,13 @@
 		A3381B192337AD3B00FA5F22 /* file.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = file.h; sourceTree = "<group>"; };
 		A3381B1A2337AD5100FA5F22 /* file.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = file.cpp; sourceTree = "<group>"; };
 		A3381B1C2337AD9B00FA5F22 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test; sourceTree = "<group>"; };
+		A358B1CF233B71FE00EE72A2 /* scope.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scope.cpp; sourceTree = "<group>"; };
+		A358B1D1233B7B4B00EE72A2 /* type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = type.cpp; sourceTree = "<group>"; };
+		A358B1D3233BB17200EE72A2 /* mir.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mir.h; sourceTree = "<group>"; };
+		A358B1D4233BB18300EE72A2 /* mir.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mir.cpp; sourceTree = "<group>"; };
+		A358B1D6233BCFE700EE72A2 /* interpreter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interpreter.cpp; sourceTree = "<group>"; };
+		A358B1D7233BCFE700EE72A2 /* interpreter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = interpreter.h; sourceTree = "<group>"; };
+		A358B1D9233BD19200EE72A2 /* bytebuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bytebuffer.h; sourceTree = "<group>"; };
 		A3592782233A65A200A60F6E /* validator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = validator.cpp; sourceTree = "<group>"; };
 		A3592783233A65A200A60F6E /* validator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = validator.h; sourceTree = "<group>"; };
 		A3592785233A663900A60F6E /* scope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scope.h; sourceTree = "<group>"; };
@@ -124,6 +135,8 @@
 				A3592783233A65A200A60F6E /* validator.h */,
 				A3592782233A65A200A60F6E /* validator.cpp */,
 				A359278E233A682B00A60F6E /* type.h */,
+				A358B1CF233B71FE00EE72A2 /* scope.cpp */,
+				A358B1D1233B7B4B00EE72A2 /* type.cpp */,
 			);
 			path = validation;
 			sourceTree = "<group>";
@@ -131,6 +144,8 @@
 		A3592789233A665B00A60F6E /* mir */ = {
 			isa = PBXGroup;
 			children = (
+				A358B1D3233BB17200EE72A2 /* mir.h */,
+				A358B1D4233BB18300EE72A2 /* mir.cpp */,
 			);
 			path = mir;
 			sourceTree = "<group>";
@@ -138,6 +153,8 @@
 		A359278A233A666700A60F6E /* interpreter */ = {
 			isa = PBXGroup;
 			children = (
+				A358B1D6233BCFE700EE72A2 /* interpreter.cpp */,
+				A358B1D7233BCFE700EE72A2 /* interpreter.h */,
 			);
 			path = interpreter;
 			sourceTree = "<group>";
@@ -162,6 +179,7 @@
 				A3381B192337AD3B00FA5F22 /* file.h */,
 				A3381B1A2337AD5100FA5F22 /* file.cpp */,
 				A3381B182337701500FA5F22 /* helper.h */,
+				A358B1D9233BD19200EE72A2 /* bytebuffer.h */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -232,11 +250,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3381B112335584700FA5F22 /* parser.cpp in Sources */,
+				A358B1D0233B71FE00EE72A2 /* scope.cpp in Sources */,
 				A3381B042334E37D00FA5F22 /* lexer.cpp in Sources */,
+				A358B1D2233B7B4B00EE72A2 /* type.cpp in Sources */,
 				A3381B1B2337AD5100FA5F22 /* file.cpp in Sources */,
 				A3381B142335686E00FA5F22 /* allocator.cpp in Sources */,
 				A3592784233A65A200A60F6E /* validator.cpp in Sources */,
 				A3381AFA2334B6C300FA5F22 /* main.cpp in Sources */,
+				A358B1D8233BCFE700EE72A2 /* interpreter.cpp in Sources */,
+				A358B1D5233BB18300EE72A2 /* mir.cpp in Sources */,
 				A3381B172335F66A00FA5F22 /* linear_allocator.cpp in Sources */,
 				A3381B072334E4B200FA5F22 /* error.cpp in Sources */,
 			);

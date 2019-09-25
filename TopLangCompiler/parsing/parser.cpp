@@ -13,38 +13,35 @@
 namespace top {
     namespace parser {
         lexer::Token* next(Parser& parser) {
-            parser.token = &parser.lexer->tokens[++parser.i];
+            parser.token = &parser.tokens[++parser.i];
             return parser.token;
         }
         
         lexer::Token* look_back(Parser& parser) {
-            return &parser.lexer->tokens[parser.i - 1];
+            return &parser.tokens[parser.i - 1];
         }
         
         lexer::Token* look_forward(Parser& parser) {
-            return &parser.lexer->tokens[min(parser.lexer->tokens.length - 1, parser.i + 1)];
+            return &parser.tokens[min(parser.tokens.length - 1, parser.i + 1)];
         }
         
         lexer::Token* current(Parser& parser) {
-            return &parser.lexer->tokens[parser.i];
+            return &parser.tokens[parser.i];
         }
         
         bool parse_error(Parser& parser) {
-            return error::is_error(parser.lexer->err);
+            return error::is_error(parser.err);
         }
         
-        void make_parse_error(Parser& parser, lexer::Token* token, error::ErrorID id, string group, string mesg) {
+        void make_parse_error(Parser& parser, lexer::Token* token, error::ErrorID id, string mesg) {
             if (parse_error(parser)) return;
             
-            error::Error* error = parser.lexer->err;
+            error::Error* error = parser.err;
             error->column = token->column;
             error->line = token->line;
-            error->group = group;
             error->mesg = mesg;
             error->token_length = token->length_of_token;
             error->id = id;
-            error->filename = parser.lexer->filename;
-            error->src = parser.lexer->input;
         }
     
         const char ignore_indent = 1;
@@ -56,29 +53,29 @@ namespace top {
         void consume_terminator(Parser& parser);
         void consume_indent_and_newline(Parser& parser, char ignore);
         
-        void expect(Parser& parser, lexer::TokenGroup group, lexer::TokenType type, error::ErrorID id, string err_group, string err_mesg) {
+        void expect(Parser& parser, lexer::TokenGroup group, lexer::TokenType type, error::ErrorID id, string err_mesg) {
             if (parser.token->group != group || parser.token->type != type) {
                 lexer::Token* token = parser.token;
                 for (int i = parser.i; token->group == lexer::Terminator && i > 1; i--) {
-                    token = &parser.lexer->tokens[i];
+                    token = &parser.tokens[i];
                 }
                 
-                make_parse_error(parser, token, id, err_group, err_mesg);
+                make_parse_error(parser, token, id, err_mesg);
             }
         }
         
-        void expect_next(Parser& parser, lexer::TokenGroup group, lexer::TokenType type, error::ErrorID id, string err_group, string err_mesg) {
+        void expect_next(Parser& parser, lexer::TokenGroup group, lexer::TokenType type, error::ErrorID id, string err_mesg) {
             next(parser);
-            expect(parser, group, type, id, err_group, err_mesg);
+            expect(parser, group, type, id, err_mesg);
         }
         
-        void expect_advance(Parser& parser, lexer::TokenGroup group, lexer::TokenType type, error::ErrorID id, string err_group, string err_mesg) {
-            expect(parser, group, type, id, err_group, err_mesg);
+        void expect_advance(Parser& parser, lexer::TokenGroup group, lexer::TokenType type, error::ErrorID id, string err_mesg) {
+            expect(parser, group, type, id, err_mesg);
             next(parser);
         }
         
         AST* int_literal(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::Literal);
+            AST* ast = make_node(parser, AST::Literal, token);
             
             char buffer[100];
             to_cstr(token->value, buffer, 100);
@@ -90,7 +87,7 @@ namespace top {
         }
         
         AST* identifier(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::Identifier);
+            AST* ast = make_node(parser, AST::Identifier, token);
             ast->identifier = token->value;
             
             return ast;
@@ -101,12 +98,12 @@ namespace top {
                 next(parser);
                 return false;
             }
-            expect_advance(parser, lexer::Symbol, lexer::Comma, error::SyntaxError, "Syntax Error", "Expecting , or )");
+            expect_advance(parser, lexer::Symbol, lexer::Comma, error::SyntaxError, "Expecting , or )");
             return true;
         }
         
         AST* tuple(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::Tuple);
+            AST* ast = make_node(parser, AST::Tuple, token);
             
             while (true) {
                 array_add(ast->children, expression(parser, ignore_both));
@@ -117,16 +114,16 @@ namespace top {
         
         lexer::Token* expect_identifier(Parser& parser) {
             lexer::Token* t = parser.token;
-            expect_advance(parser, lexer::Symbol, lexer::Identifier, error::SyntaxError, "Syntax Error", "Expecting identifier for name");
+            expect_advance(parser, lexer::Symbol, lexer::Identifier, error::SyntaxError, "Expecting identifier for name");
             if (parse_error(parser)) return NULL;
             return t;
         }
         
         AST* var_decl(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::VarDecl);
+            AST* ast = make_node(parser, AST::VarDecl, token);
             lexer::Token* t = parser.token;
             if (t->type != lexer::Identifier) {
-                make_parse_error(parser, t, error::SyntaxError, "Syntax Error", "Expecting identifier");
+                make_parse_error(parser, t, error::SyntaxError, "Expecting identifier");
                 return NULL;
             }
             ast->var_decl.name = t->value;
@@ -141,22 +138,22 @@ namespace top {
         }
         
         AST* mut(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::Mut);
+            AST* ast = make_node(parser, AST::Mut, token);
             ast->mut = expression(parser, false);
             return ast;
         }
         
         void expect_colon(Parser& parser) {
-            expect_advance(parser, lexer::Symbol, lexer::Colon, error::SyntaxError, "Syntax Error", "Expecting :");
+            expect_advance(parser, lexer::Symbol, lexer::Colon, error::SyntaxError, "Expecting :");
         }
         
         AST* func_def(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::Func);
+            AST* ast = make_node(parser, AST::Func, token);
             lexer::Token* name = expect_identifier(parser);
             if (!name) return NULL;
             ast->func.name = name->value;
             
-            expect_advance(parser, lexer::Symbol, lexer::Open_Paren, error::SyntaxError, "Syntax Error", "Expecting (");
+            expect_advance(parser, lexer::Symbol, lexer::Open_Paren, error::SyntaxError, "Expecting (");
             
             while (true) {
                 if (parser.token->type == lexer::Close_Paren) { //Empty Arguments
@@ -182,11 +179,11 @@ namespace top {
         }
         
         void error_missing_pass(Parser& parser, lexer::Token* token) {
-            make_parse_error(parser, token, error::SyntaxError, "Syntax Error", "Expecting {} to mark empty body");
+            make_parse_error(parser, token, error::SyntaxError, "Expecting {} to mark empty body");
         }
         
         AST* else_expr(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::Else);
+            AST* ast = make_node(parser, AST::Else, token);
             
             expect_colon(parser);
             if (parse_error(parser)) return NULL;
@@ -196,7 +193,7 @@ namespace top {
         }
         
         AST* if_expr(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::If);
+            AST* ast = make_node(parser, AST::If, token);
             ast->if_expr.condition = expression(parser, ignore_newline);
             
             expect_colon(parser);
@@ -219,7 +216,7 @@ namespace top {
         }
         
         AST* indent_block(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::Block);
+            AST* ast = make_node(parser, AST::Block, token);
             
             if (parser.token->type == lexer::Close_Indent) {
                 error_missing_pass(parser, token);
@@ -240,7 +237,7 @@ namespace top {
         }
         
         AST* while_loop(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::While);
+            AST* ast = make_node(parser, AST::While, token);
             
             ast->loop.condition = expression(parser, ignore_newline);
             expect_colon(parser);
@@ -261,11 +258,11 @@ namespace top {
         }
         
         AST* block(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::Block);
+            AST* ast = make_node(parser, AST::Block, token);
             
             while (parser.token->type != lexer::Close_Bracket && parser.token->type != lexer::EndOfFile) {
                 if (parser.token->type == lexer::Newline) {
-                    make_parse_error(parser, next(parser), error::IndentationError, "IndentationError", "Expecting indent");
+                    make_parse_error(parser, next(parser), error::IndentationError, "Expecting indent");
                 }
                 
                 array_add(ast->children, expression(parser, false));
@@ -289,18 +286,18 @@ namespace top {
         }
         
         AST* bool_literal(Parser& parser, lexer::Token* token) {
-            AST* ast = make_node(parser, AST::Literal);
+            AST* ast = make_node(parser, AST::Literal, token);
             ast->literal.type = AST::LiteralData::Bool;
             ast->literal.boolean = token->type == lexer::True;
             return ast;
         }
         
         AST* int_type(Parser& parser, lexer::Token* token) {
-            return make_node(parser, AST::IntType);
+            return make_node(parser, AST::IntType, token);
         }
         
         AST* func_call(Parser& parser, lexer::Token* token, AST* func) {
-            AST* ast = make_node(parser, AST::FuncCall);
+            AST* ast = make_node(parser, AST::FuncCall, token);
             ast->func_call.func = func;
             
             AST* args = tuple(parser, token);
@@ -310,60 +307,56 @@ namespace top {
         }
         
         AST* nud(Parser& parser, lexer::Token* token, char ignore) {
-            if (token->group == lexer::Literal) {
-                if (token->type == lexer::Int) return int_literal(parser, token);
-                if (token->type == lexer::True) return bool_literal(parser, token);
-                if (token->type == lexer::False) return bool_literal(parser, token);
-            }
-            
-            if (token->group == lexer::Symbol) {
-                if (token->type == lexer::Identifier) return identifier(parser, token);
-                if (token->type == lexer::Open_Paren) return tuple(parser, token);
-                if (token->type == lexer::Open_Bracket) return block(parser, token);
-            }
-            
-            if (token->group == lexer::Keyword) {
-                if (token->type == lexer::If) return if_expr(parser, token);
-                if (token->type == lexer::Else && token->type == lexer::Elif) {
-                    make_parse_error(parser, parser.token, error::SyntaxError, "Syntax Error", "(Help) You probably forgot an if statement");
+            switch(token->type) {
+                case lexer::Int: return int_literal(parser, token);
+                case lexer::True: return bool_literal(parser, token);
+                case lexer::False: return bool_literal(parser, token);
+                case lexer::Identifier: return identifier(parser, token);
+                case lexer::Open_Paren: return tuple(parser, token);
+                case lexer::Open_Bracket: return block(parser, token);
+                case lexer::If: return if_expr(parser, token);
+                case lexer::Else:
+                case lexer::Elif:
+                    make_parse_error(parser, parser.token, error::SyntaxError, "(Help) You probably forgot an if statement");
                     return NULL;
-                }
-                if (token->type == lexer::For) return for_loop(parser, token);
-                if (token->type == lexer::While) return while_loop(parser, token);
-                if (token->type == lexer::Def) return func_def(parser, token);
-                if (token->type == lexer::IntType) return int_type(parser, token);
-                if (token->type == lexer::Mut) return mut(parser, token);
-                if (token->type == lexer::Var) return var(parser, token);
-            }
-            
-            if (token->group == lexer::Terminator) {
-                if (token->type == lexer::Open_Indent) return indent_block(parser, token);
+                case lexer::For: return for_loop(parser, token);
+                case lexer::While: return while_loop(parser, token);
+                case lexer::Def: return func_def(parser, token);
+                case lexer::IntType: return int_type(parser, token);
+                case lexer::Mut: return mut(parser, token);
+                case lexer::Var: return var(parser, token);
+                case lexer::Open_Indent: return indent_block(parser, token);
+                default: break;
             }
             
             if (token->group == lexer::Operator) {
-                make_parse_error(parser, token, error::SyntaxError, "Syntax Error", "Operator does not support unary application");
+                make_parse_error(parser, token, error::SyntaxError, "Operator does not support unary application");
+                return NULL;
             }
             
-            make_parse_error(parser, token, error::SyntaxError, "SyntaxError", "Unexpected token");
+            make_parse_error(parser, token, error::SyntaxError, "Unexpected token");
             return NULL;
         }
         
+        AST* binary_operator(Parser& parser, lexer::Token* token, AST* left, char ignore) {
+            AST* ast = make_node(parser, AST::Operator, token);
+            
+            ast->op.type = (OperatorType)token->type;
+            ast->op.left = left;
+            ast->op.right = expression(parser, ignore, token->lbp);
+            return ast;
+        }
+        
         AST* led(Parser& parser, lexer::Token* token, AST* left, char ignore) {
-            if (token->group == lexer::Operator) {
-                AST* ast = make_node(parser, AST::Operator);
-                
-                ast->op.type = (OperatorType)token->type;
-                ast->op.left = left;
-                ast->op.right = expression(parser, ignore, token->lbp);
-                return ast;
+            switch (token->group) {
+                case lexer::Operator: return binary_operator(parser, token, left, ignore);
+                default: break;
             }
             
-            if (token->group == lexer::Symbol) {
-                if (token->type == lexer::Open_Paren) return func_call(parser, token, left);
+            switch(token->type) {
+                case lexer::Open_Paren: return func_call(parser, token, left);
+                default: make_parse_error(parser, token, error::SyntaxError, "Unexpected token");
             }
-            
-            make_parse_error(parser, token, error::SyntaxError, "SyntaxError", "Unexpected token");
-            
             return NULL;
         }
         
@@ -380,7 +373,7 @@ namespace top {
             lexer::Token* t = parser.token;
             
             if (t->type == lexer::EndOfFile) {
-                make_parse_error(parser, t, error::SyntaxError, "SyntaxError", "Reached end of file");
+                make_parse_error(parser, t, error::SyntaxError, "Reached end of file");
                 return NULL;
             }
             
@@ -408,8 +401,8 @@ namespace top {
             lexer::TokenType current_type = current(parser)->type;
             if (current_type == lexer::EndOfFile) return;
             if (current_type != lexer::Newline && current_type != lexer::Close_Indent) {
-                if (current(parser)->type == lexer::Open_Indent) make_parse_error(parser, parser.token, error::IndentationError, "IndentationError", "Unexpected indent\n\n(Help) Use { } to create a new scope");
-                else make_parse_error(parser, parser.token, error::SyntaxError, "SyntaxError", "Statement should terminate with newline");
+                if (current(parser)->type == lexer::Open_Indent) make_parse_error(parser, parser.token, error::IndentationError, "Unexpected indent\n\n(Help) Use { } to create a new scope");
+                else make_parse_error(parser, parser.token, error::SyntaxError, "Statement should terminate with newline");
             }
             
             do {
@@ -424,9 +417,10 @@ namespace top {
             return ast;
         }
         
-        AST* make_node(Parser& parser, AST::ASTType type) {
+        AST* make_node(Parser& parser, AST::ASTType type, lexer::Token* token) {
             AST* ast = pool_alloc(parser.pool);
             ast->type = type;
+            ast->token = token;
             
             if (ast->type == AST::Block || ast->type == AST::Tuple) {
                 ast->children.allocator = LinearAllocator;
@@ -441,16 +435,19 @@ namespace top {
             return ast;
         }
         
-        void parse(Parser& parser, lexer::Lexer* lexer) {
-            parser.lexer = lexer;
-            parser.token = &lexer->tokens[0];
+        AST* parse(Parser& parser, slice<lexer::Token> tokens, error::Error* error) {
+            parser.tokens = tokens;
+            parser.err = error;
+            parser.token = &tokens[0];
             
-            parser.root = make_node(parser, AST::Block);
+            parser.root = make_node(parser, AST::Block, parser.token);
             
             while (parser.token->type != lexer::EndOfFile) {
                 array_add(parser.root->children, statement(parser));
-                if (parse_error(parser)) return;
+                if (parse_error(parser)) return NULL;
             }
+            
+            return parser.root;
         }
         
         void destroy(Parser& parser) {
@@ -584,8 +581,8 @@ namespace top {
         }
         
         void dump_ast(Parser& parser) {
+            printf("\n=== AST ===\n\n");
             dump_ast(parser.root);
-            
             printf("\n");
         }
     }

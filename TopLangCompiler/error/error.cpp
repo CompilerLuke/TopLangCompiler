@@ -66,10 +66,15 @@ namespace top {
                 terminate_line(last(lines), begin_i, error->src.length);
             }
             
-            char mesg[100], filename[100], group[100];
+            char mesg[100], filename[100];
             to_cstr(error->mesg, mesg, 100);
             to_cstr(error->filename, filename, 100);
-            to_cstr(error->group, group, 100);
+            
+            const char* group;
+            if (error->id == IndentationError) group = "IndentationError";
+            if (error->id == SyntaxError) group = "SyntaxError";
+            if (error->id == UnknownToken) group = "LexingError";
+            if (error->id == RedefinitionError) group = "RedefinitionError";
             
             printf("\033[1;31m");
             printf("Error[%i]\033[0m : %s \n --> %s:%i:%i\n\n", error->id, group, filename, error->line, error->column);

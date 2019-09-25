@@ -74,6 +74,13 @@ namespace top {
         
         static_array<20, KeywordDesc> keywords;
         
+        error::Error* make_error(Lexer& lexer) {
+            error::Error* err = lexer.err;
+            err->line = lexer.line;
+            err->column = lexer.column;
+            return err;
+        }
+        
         void match_token(Lexer& lexer) {
             for (int i = 0; i < keywords.length; i++) {
                 if (lexer.tok == keywords[i].name) {
@@ -87,14 +94,10 @@ namespace top {
                 char buffer[100];
                 to_cstr(lexer.tok, buffer, 100);
                 
-                error::Error* err = lexer.err;
+                error::Error* err = make_error(lexer);
                 err->mesg = "Invalid token";
-                err->group = "Lexing";
                 err->id = error::UnknownToken;
-                err->column = lexer.column - lexer.tok.length;
-                err->line = lexer.line;
-                err->src = lexer.input;
-                err->filename = lexer.filename;
+                err->column -= lexer.tok.length;
                 err->token_length = lexer.tok.length;
             }
         }
@@ -206,9 +209,8 @@ namespace top {
             add_token(lexer, 1, lexer.column, d.group, d.type, d.lbp);
         }
     
-        void lex(Lexer& lexer, string input, string filename, error::Error* err) {
+        slice<Token> lex(Lexer& lexer, string input, error::Error* err) {
             lexer.input = input;
-            lexer.filename = filename;
             lexer.reserved = 10;
             lexer.tok.data = lexer.input.data;
             lexer.err = err;
@@ -223,11 +225,9 @@ namespace top {
                     reset_tok(lexer);
                 }
                 else if (c == '\t') {
-                    lexer.err->mesg = "Use spaces instead of tabs";
-                    lexer.err->group = "Indentation Error";
-                    lexer.err->column = lexer.column;
-                    lexer.err->src = lexer.input;
-                    lexer.err->line = lexer.line;
+                    error::Error* err = make_error(lexer);
+                    err->mesg = "Use spaces instead of tabs";
+                    err->id = error::IndentationError;
                     lexer.err->token_length = 1;
                 }
                 else if (c == '\n') {
@@ -260,18 +260,15 @@ namespace top {
                         else {
                             int indent_off = diff % lexer.indent_diff;
                             if (indent_off != 0) {
+                                error::Error* err = make_error(lexer);
                                 lexer.err->id = error::IndentationError;
                                 
                                 char* buffer = (char*)malloc(100);
                                 snprintf(buffer, 100, "Inconsistent indentation, expecting an indent of %i spaces but got %i spaces", lexer.indent_diff, indent_off);
                                 
-                                lexer.err->mesg = { buffer, (unsigned int)strlen(buffer) };
-                                lexer.err->group = "Indentation Error";
-                                lexer.err->column = max(0, num_indent - indent_off);
-                                lexer.err->src = lexer.input;
-                                lexer.err->line = lexer.line;
-                                lexer.err->token_length = indent_off;
-
+                                err->mesg = { buffer, (unsigned int)strlen(buffer) };
+                                err->column = max(0, num_indent - indent_off);
+                                err->token_length = indent_off;
                             }
                         }
                         
@@ -293,11 +290,13 @@ namespace top {
                     lexer.tok.length++;
                 }
                 
-                if (error::is_error(lexer.err)) return;
+                if (error::is_error(lexer.err)) return {};
             }
             
             reset_tok(lexer);
             add_token(lexer, 1, lexer.column, Terminator, EndOfFile, 0);
+        
+            return { lexer.tokens.data, lexer.tokens.length };
         }
         
         void print_token(const Token& token) {
@@ -327,6 +326,14 @@ namespace top {
                 printf("(%s, %s)\n", group, type);
             }
             
+        }
+        
+        void dump_tokens(Lexer& lexer) {
+            printf("=== Lexer ===\n");
+            
+            for (int i = 0; i < len(lexer.tokens); i++) {
+                lexer::print_token(lexer.tokens[i]);
+            }
         }
         
         void destroy(Lexer& lexer) {

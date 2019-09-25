@@ -12,10 +12,9 @@
 
 namespace top {
     namespace error {
-        enum ErrorID { UnknownToken, SyntaxError, IndentationError };
+        enum ErrorID { UnknownToken, SyntaxError, IndentationError, RedefinitionError };
         
         struct Error {
-            string group;
             string mesg;
             
             string filename;

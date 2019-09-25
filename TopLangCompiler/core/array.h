@@ -167,6 +167,11 @@ namespace top {
     T pop(array<T>& arr) {
         return arr.data[--arr.length];
     }
+    
+    template<typename T>
+    void clear(T& arr) {
+        arr.length = 0;
+    }
 };
 
 

@@ -16,9 +16,15 @@
 namespace top {
     enum class OperatorType { Add, Sub, Mul, Div, Assign, In, ColonAssign, AddAssign, SubAssign, MulAssign, DivAssign };
     
+    namespace validator {
+        struct Type;
+    }
+    
     namespace parser {
         struct AST {
             enum ASTType { Operator, Literal, Identifier, Block, Tuple, If, Else, While, For, FuncCall, IfType, VarDecl, Func, IntType, Mut} type;
+            
+            lexer::Token* token;
             
             struct OperatorData {
                 OperatorType type;
@@ -82,11 +88,12 @@ namespace top {
                 AST* mut;
             };
             
-            struct Type* ast_type;
+            validator::Type* ast_type;
         };
 
         struct Parser {
-            lexer::Lexer* lexer = NULL;
+            error::Error* err;
+            slice<lexer::Token> tokens;
             AST* root = NULL;
             MemoryPool<1000, AST> pool = {};
             struct LinearAllocator linear_allocator = {};
@@ -96,12 +103,12 @@ namespace top {
             lexer::Token* token = NULL;
         };
 
-        void parse(Parser&, lexer::Lexer*);
+        AST* parse(Parser&, slice<lexer::Token> tokens, error::Error*);
         void destroy(Parser&);
         
         void dump_ast(Parser&);
 
-        AST* make_node(Parser&, AST::ASTType);
+        AST* make_node(Parser&, AST::ASTType, lexer::Token*);
         void destroy_node(Parser&, AST*);
     }
 };

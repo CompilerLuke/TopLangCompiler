@@ -15,11 +15,14 @@
 
 #include "error.h"
 #include "file.h"
+#include "validator.h"
+#include "mir.h"
+#include "interpreter.h"
 
 using namespace top;
 
 int main(int argc, const char * argv[]) {
-    string filename = "main.top";
+    const char* filename = "main.top";
     
     FILE* file = io::open("main.top", io::FileMode::Read);
     if (!file) {
@@ -36,38 +39,61 @@ int main(int argc, const char * argv[]) {
     printf("========= Compiling =========\n\n");
     
     error::Error err;
+    err.src = input;
+    err.filename = filename;
     
     lexer::init();
     
     lexer::Lexer lexer;
-    lexer::lex(lexer, input, filename,  &err);
+    slice<lexer::Token> tokens = lexer::lex(lexer, input, &err);
     
     if (error::is_error(&err)) {
         error::log_error(&err);
         lexer::destroy(lexer);
         lexer::destroy();
+        dealloc(MallocAllocator, NULL, input.data);
         return 1;
     }
-    
-    for (int i = 0; i < len(lexer.tokens); i++) {
-        lexer::print_token(lexer.tokens[i]);
-    }
+
+    lexer::dump_tokens(lexer);
     
     parser::Parser parser;
-    parser::parse(parser, &lexer);
+    parser::AST* ast = parser::parse(parser, tokens, &err);
     
     if (error::is_error(&err)) {
         error::log_error(&err);
         parser::destroy(parser);
         lexer::destroy(lexer);
         lexer::destroy();
+        dealloc(MallocAllocator, NULL, input.data);
         return 1;
     }
     
     parser::dump_ast(parser);
     
-    printf("Occupied bytes: %lu\n", parser.linear_allocator.occupied);
+    validator::init_types();
+    validator::Validator validator;
+    validator::validate(validator, ast, &err);
     
+    printf("\n=== Validation ===\n\n");
+    
+    if (error::is_error(&err)) {
+        error::log_error(&err);
+        validator::destroy(validator);
+        parser::destroy(parser);
+        lexer::destroy(lexer);
+        lexer::destroy();
+        dealloc(MallocAllocator, NULL, input.data);
+        return 1;
+    }
+    
+    mir::MIR mir = mir::gen_mir(parser.root);
+    mir::dump_mir(mir);
+    
+    interpreter::interpret(mir);
+    
+    mir::destroy(mir);
+    validator::destroy(validator);
     parser::destroy(parser);
     lexer::destroy(lexer);
     lexer::destroy();

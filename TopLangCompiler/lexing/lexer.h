@@ -37,7 +37,6 @@ namespace top {
         
         struct Lexer {
             string input;
-            string filename;
             
             size_t reserved = 0;
             
@@ -57,8 +56,8 @@ namespace top {
         void destroy();
         
         string token_type_to_string(TokenType);
-        void lex(Lexer& lexer, string input, string filename, error::Error*);
-        void print_token(const Token& token);
+        slice<Token> lex(Lexer& lexer, string input, error::Error*);
+        void dump_tokens(Lexer& lexer);
         void destroy(Lexer& lexer);
     }
 };

@@ -12,7 +12,7 @@
 #include "parser.h"
 
 namespace top {
-    namespace validation {
+    namespace validator {
         struct Type {
             enum TypeType { Int };
         };
@@ -30,5 +30,10 @@ namespace top {
             
             parser::AST* body;
         };
+        
+        Type* int_type();
+        void init_types();
+        
+        void duck_type(struct Validator&, parser::AST*, Type*, Type*);
     }
 }

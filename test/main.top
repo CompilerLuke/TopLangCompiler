@@ -1,1 +1,4 @@
-+4
+def main(x int):
+    x + 40
+
+main(40)

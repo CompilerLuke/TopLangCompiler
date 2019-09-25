@@ -13,10 +13,23 @@
 #include "parser.h"
 
 namespace top {
-    namespace validation {
+    namespace validator {
+        struct VarDesc {
+            bool immutable = false;
+            string name;
+            Type* type;
+        };
+        
         struct Scope {
             array<FuncType*> func_defs;
-            array<Type*> vars;
+            array<VarDesc> vars;
         };
+        
+        void make_var(struct Validator&, VarDesc desc, parser::AST* ast);
+        void push_scope(struct Validator&);
+        void pop_scope(struct Validator&);
+        
+        void make_scopes(struct Validator&);
+        void destroy_scopes(struct Validator&);
     };
 }

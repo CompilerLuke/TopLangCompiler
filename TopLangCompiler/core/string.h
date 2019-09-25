@@ -34,7 +34,7 @@ namespace top {
             this->length = (unsigned int)strlen(cstr);
         }
     };
-
+    
     inline unsigned int len(string s) {
         return s.length;
     }

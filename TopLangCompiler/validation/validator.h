@@ -13,16 +13,23 @@
 #include "parser.h"
 
 namespace top {
-    namespace validation {
+    namespace validator {
         struct Validator {
-            parser::Parser* parser;
+            error::Error* err;
+            
             array<Scope> scopes;
+            array<Scope> unused_scopes;
+            
+            MemoryPool<1000, Type> type_pool;
+            Type* basic_types[20];
         };
         
-        void push_scope(Validator& validator);
-        void pop_scope(Validator& validator);
+        void make_validation_error(Validator& validator, parser::AST*, error::ErrorID, string);
         
-        void validate(Validator& validator, parser::Parser& parser);
+        void validate(Validator& validator, parser::AST*, error::Error*);
+        
+        Type* validate_node(Validator& validator, parser::AST* ast);
+        void destroy(Validator& validator);
     }
 }
 
