@@ -8,38 +8,51 @@
 
 #pragma once
 
-#include "array.h"
-#include "linear_allocator.h"
+#include "core/array.h"
+#include "core/linear_allocator.h"
 
 namespace top {
-    namespace parser {
-        struct AST;
-    }
-    
-    namespace mir {
-        enum Opcode {
-            Add_Int32, Sub_Int32, Mul_Int32, Div_Int32,
-            Push_Int32
-        };
-        
-        struct Func {
-            array<char> bytecode;
-        };
-        
-        void* read_bytecode(Func&, unsigned int& i, unsigned int amount);
-        void* write_bytecode(Func&, unsigned int amount);
-        
-        struct MIR {
-            struct LinearAllocator linear_allocator;
-            array<Func> funcs;
-        };
-        
-        struct Converter {
-            MIR* mir;
-        };
-        
-        MIR gen_mir(parser::AST*);
-        void destroy(MIR&);
-        void dump_mir(MIR&);
-    }
+	namespace parser {
+		struct AST;
+	}
+
+	namespace validator {
+		struct VarDesc;
+	}
+
+	namespace mir {
+		enum Opcode : char {
+			Add_Int32, Sub_Int32, Mul_Int32, Div_Int32,
+			Push_Int32,
+			Ret_Int32
+		};
+
+		struct Func {
+			int entry_point;
+			int length;
+		};
+
+		struct Var {
+			validator::VarDesc* desc;
+			int reg;
+		};
+
+		struct MIR {
+			struct LinearAllocator linear_allocator;
+			array<char> bytecode;
+			
+			array<Func> funcs;
+		};
+
+		struct Converter {
+			MIR* mir;
+			int used_registers;
+			
+			array<Var> vars; //todo implement scopes
+		};
+
+		MIR gen_mir(parser::AST*);
+		void destroy(MIR&);
+		void dump_mir(MIR&);
+	}
 }

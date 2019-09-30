@@ -8,15 +8,16 @@
 
 #pragma once
 
-#include "array.h"
-#include "mir.h"
+#include "core/array.h"
+#include "mir/mir.h"
 
 namespace top {
     namespace interpreter {
         struct Interpreter {
-            array<char> stack;
-            mir::MIR* mir;
-            mir::Func* func_ptr;
+			int registers[1000];
+			mir::MIR* mir;
+
+			int stack = 0;
             unsigned int inst = 0;
         };
         

@@ -7,32 +7,33 @@
 //
 
 #include <iostream>
-#include "lexer.h"
+#include "lexing/lexer.h"
 #include <string.h>
 
-#include "array.h"
-#include "parser.h"
+#include "core/array.h"
+#include "parsing/parser.h"
 
-#include "error.h"
-#include "file.h"
-#include "validator.h"
-#include "mir.h"
-#include "interpreter.h"
+#include "error/error.h"
+#include "core/file.h"
+#include "validation/validator.h"
+#include "mir/mir.h"
+#include "interpreter/interpreter.h"
 
 using namespace top;
 
-int main(int argc, const char * argv[]) {
+int main(int argc, char *argv[], char *envp[]) 
+{
     const char* filename = "main.top";
     
     FILE* file = io::open("main.top", io::FileMode::Read);
     if (!file) {
-        printf("\033[1;31mCould not open file '%s'\033[0m\n", filename);
+        printf("%sCould not open file '%s'%s\n", error::red, filename, error::black);
         return 1;
     }
     
     string input = io::read_file(file);
     if (input.length == 0) {
-        printf("\033[;31mCould not read file '%s'\033[0m\n", filename);
+        printf("%sCould not read file '%s'%s\n", error::red, filename, error::black);
     }
     io::destroy(file);
     

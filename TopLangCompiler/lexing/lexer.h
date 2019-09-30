@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "array.h"
-#include "string.h"
-#include "error.h"
+#include "core/array.h"
+#include "core/string.h"
+#include "error/error.h"
 
 namespace top {
     namespace lexer {

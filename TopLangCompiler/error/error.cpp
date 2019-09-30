@@ -6,10 +6,11 @@
 //  Copyright © 2019 Lucas Goetz. All rights reserved.
 //
 
-#include "error.h"
-#include "stdio.h"
-#include "array.h"
-#include "helper.h"
+#include "error/error.h"
+#include <stdio.h>
+#include "core/array.h"
+#include "core/helper.h"
+#include "core/string.h"
 
 namespace top {
     namespace error {
@@ -75,9 +76,9 @@ namespace top {
             if (error->id == SyntaxError) group = "SyntaxError";
             if (error->id == UnknownToken) group = "LexingError";
             if (error->id == RedefinitionError) group = "RedefinitionError";
+			if (error->id == UnknownVariable) group = "UnknownVariableError";
             
-            printf("\033[1;31m");
-            printf("Error[%i]\033[0m : %s \n --> %s:%i:%i\n\n", error->id, group, filename, error->line, error->column);
+            printf("%sError[%i]%s : %s \n --> %s:%i:%i\n\n", red, error->id, black, group, filename, error->line, error->column);
             
             for (int i = 0; i < len(lines); i++) { //todo better formatting for
                 unsigned int current_line = first_begin_line + i;
@@ -96,10 +97,10 @@ namespace top {
                         to_cstr_slice(buffer, line, 0, error->column);
                         printf("%s", buffer);
                         
-                        printf("\033[1;31m");
+                        printf(red);
                         to_cstr_slice(buffer, line, error->column, error->column + error->token_length);
                         printf("%s", buffer);
-                        printf("\033[0m");
+                        printf(black);
                         
                         to_cstr_slice(buffer, line, error->column + error->token_length, line.length);
                     
@@ -110,9 +111,9 @@ namespace top {
                     }
                 
                     printf("\n |\t%.*s", error->column, "                   ");
-                    printf("\033[1;31m");
+                    printf(red);
                     printf("%.*s\n", max(error->token_length, 1), "^^^^^^^^^^^^^^^^^^^^^^");
-                    printf("\nError[%i]\033[0m : %s\n\n", error->id, mesg);
+                    printf("\nError[%i]%s : %s\n\n", error->id, black, mesg);
                 } else {
                     char buffer[300];
                     to_cstr(lines[i], buffer, 300);
@@ -122,6 +123,8 @@ namespace top {
             }
             
             printf("\n");
+
+			destroy(error->allocator);
         }
     
     }

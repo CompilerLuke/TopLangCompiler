@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "array.h"
-#include "parser.h"
+#include "core/array.h"
+#include "parsing/parser.h"
 
 namespace top {
     namespace validator {
