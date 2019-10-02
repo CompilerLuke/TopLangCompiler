@@ -53,8 +53,6 @@ namespace top {
 		}
 
 		int convert_colon_assign(Converter& converter, parser::AST* ast) {
-			MIR& mir = *converter.mir;
-
 			int reg = push_register(converter, NULL);
 			array_add(converter.vars, {ast->op.left->identifier.desc, reg});
 

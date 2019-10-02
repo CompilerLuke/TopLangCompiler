@@ -671,7 +671,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
             endingLineNumber = "46"
-            landmarkName = "validate_node(Validator&amp; validator, parser::AST* ast)"
+            landmarkName = "colon_assign(Validator&amp; validator, parser::AST* ast)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

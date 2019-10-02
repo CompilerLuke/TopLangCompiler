@@ -38,7 +38,7 @@ namespace top {
 				return make_validation_error(validator, bind_to, error::SyntaxError, "Expecting identifier");
 			}
 
-			Type* value_type = validate_node(validator, ast->op.right); //todo check if assigning none to variable
+			Type* value_type = validate_node(validator, value); //todo check if assigning none to variable
 			
 			ON_ERROR()
 			VarDesc* desc = make_var(validator, bind_to->identifier.name, bind_to);
