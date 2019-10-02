@@ -14,8 +14,8 @@ namespace top {
     namespace io {
         FILE* open(string src, FileMode mode) {
             const char* fmode = "";
-            if (mode == FileMode::Read) fmode = "r";
-            if (mode == FileMode::Write) fmode = "w";
+            if (mode == FileMode::Read) fmode = "rb";
+            if (mode == FileMode::Write) fmode = "wb";
             
             char src_buffer[100];
             to_cstr(src, src_buffer, 100);
@@ -31,6 +31,7 @@ namespace top {
             
             char* buffer = alloc<char>(allocator, allocator_data, fsize + 1);
             fread(buffer, 1, fsize, file);
+			buffer[fsize] = '\0';
             
             assert(fsize < INT_MAX);
             return { buffer, (unsigned int) fsize };

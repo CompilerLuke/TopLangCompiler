@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "string.h"
-#include "type.h"
-#include "parser.h"
+#include "core/string.h"
+#include "validation/type.h"
+#include "parsing/parser.h"
 
 namespace top {
     namespace validator {
@@ -22,10 +22,12 @@ namespace top {
         
         struct Scope {
             array<FuncType*> func_defs;
-            array<VarDesc> vars;
+            array<VarDesc*> vars;
         };
         
-        void make_var(struct Validator&, VarDesc desc, parser::AST* ast);
+        VarDesc* make_var(struct Validator&, string name, parser::AST* ast);
+		VarDesc* get_var(struct Validator&, string name, parser::AST* ast);
+
         void push_scope(struct Validator&);
         void pop_scope(struct Validator&);
         

@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Test">
+      <UniqueIdentifier>{65136f6a-5a62-451c-b24a-344fe0c1cf4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TopLangCompiler">
+      <UniqueIdentifier>{4fdf28a2-95d6-4655-acf8-6e8f59061673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TopLangCompiler\core">
+      <UniqueIdentifier>{1247b80b-9cc0-4e60-9ae8-2c6582ec0f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TopLangCompiler\error">
+      <UniqueIdentifier>{2863e8f1-6a7d-4669-99a5-7e456a73432a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TopLangCompiler\interpreter">
+      <UniqueIdentifier>{ae858d79-216e-4663-b316-06f9fda2039f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TopLangCompiler\lexing">
+      <UniqueIdentifier>{4577269e-c17e-4e70-b8f5-f47e26801e1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TopLangCompiler\mir">
+      <UniqueIdentifier>{c03dbb41-7446-4b92-b670-3a34aca2a37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TopLangCompiler\parsing">
+      <UniqueIdentifier>{820ef1db-269b-42ab-9c8a-43a74ef25e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TopLangCompiler\validation">
+      <UniqueIdentifier>{cb1e5309-b601-4cb4-8112-8cfa76085ab1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="toplangcompiler\main.cpp">
+      <Filter>TopLangCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\core\allocator.cpp">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\core\file.cpp">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\core\linear_allocator.cpp">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\error\error.cpp">
+      <Filter>TopLangCompiler\error</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\interpreter\interpreter.cpp">
+      <Filter>TopLangCompiler\interpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\lexing\lexer.cpp">
+      <Filter>TopLangCompiler\lexing</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\mir\mir.cpp">
+      <Filter>TopLangCompiler\mir</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\parsing\parser.cpp">
+      <Filter>TopLangCompiler\parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\validation\scope.cpp">
+      <Filter>TopLangCompiler\validation</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\validation\type.cpp">
+      <Filter>TopLangCompiler\validation</Filter>
+    </ClCompile>
+    <ClCompile Include="toplangcompiler\validation\validator.cpp">
+      <Filter>TopLangCompiler\validation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="toplangcompiler\core\allocator.h">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\core\array.h">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\core\bytebuffer.h">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\core\file.h">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\core\helper.h">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\core\linear_allocator.h">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\core\memory_pool.h">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\core\string.h">
+      <Filter>TopLangCompiler\core</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\error\error.h">
+      <Filter>TopLangCompiler\error</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\interpreter\interpreter.h">
+      <Filter>TopLangCompiler\interpreter</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\lexing\lexer.h">
+      <Filter>TopLangCompiler\lexing</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\mir\mir.h">
+      <Filter>TopLangCompiler\mir</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\parsing\parser.h">
+      <Filter>TopLangCompiler\parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\validation\scope.h">
+      <Filter>TopLangCompiler\validation</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\validation\type.h">
+      <Filter>TopLangCompiler\validation</Filter>
+    </ClInclude>
+    <ClInclude Include="toplangcompiler\validation\validator.h">
+      <Filter>TopLangCompiler\validation</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test\main.top">
+      <Filter>Test</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -8,16 +8,17 @@
 
 #pragma once
 
-#include "lexer.h"
-#include "array.h"
-#include "memory_pool.h"
-#include "linear_allocator.h"
+#include "lexing/lexer.h"
+#include "core/array.h"
+#include "core/memory_pool.h"
+#include "core/linear_allocator.h"
 
 namespace top {
     enum class OperatorType { Add, Sub, Mul, Div, Assign, In, ColonAssign, AddAssign, SubAssign, MulAssign, DivAssign };
     
     namespace validator {
         struct Type;
+		struct VarDesc;
     }
     
     namespace parser {
@@ -73,11 +74,16 @@ namespace top {
                 AST* func;
                 array<AST*> args;
             };
+
+			struct IdentifierData {
+				string name;
+				validator::VarDesc* desc;
+			};
             
             union {
                 OperatorData op;
                 LiteralData literal;
-                string identifier;
+                IdentifierData identifier;
                 IfData if_expr;
                 ElseData else_expr;
                 array<AST*> children;

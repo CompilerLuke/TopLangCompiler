@@ -11,9 +11,9 @@
 #include "lexer.h"
 #include <string.h>
 #include "string.h"
-#include "array.h"
-#include "helper.h"
-#include "linear_allocator.h"
+#include "core/array.h"
+#include "core/helper.h"
+#include "core/linear_allocator.h"
 
 namespace top {
     namespace lexer {
@@ -224,6 +224,9 @@ namespace top {
                 if (c == ' ') {
                     reset_tok(lexer);
                 }
+				else if (c == '\r') {
+					reset_tok(lexer);
+				}
                 else if (c == '\t') {
                     error::Error* err = make_error(lexer);
                     err->mesg = "Use spaces instead of tabs";
@@ -302,6 +305,7 @@ namespace top {
         void print_token(const Token& token) {
             const char* group;
             const char* type;
+			char type_buffer[100];
             
             if (token.group == lexer::Literal) group = "literal";
             if (token.group == lexer::Operator) group = "operator";
@@ -310,7 +314,10 @@ namespace top {
             if (token.group == lexer::Keyword) group = "keyword";
             
             string tok = token_type_to_string(token.type);
-            if (tok.length > 0) type = tok.data;
+			if (tok.length > 0) {
+				to_cstr(tok, type_buffer, 100);
+				type = type_buffer;
+			}
             if (token.type == lexer::Newline) type = "Newline";
             if (token.type == lexer::EndOfFile) type = "EOF";
             if (token.type == lexer::Identifier) type = "identifier";

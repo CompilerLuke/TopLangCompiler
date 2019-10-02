@@ -1,1 +1,4 @@
 TopLangCompiler.xcodeproj/*
+/Debug
+/.vs
+/x64/Debug

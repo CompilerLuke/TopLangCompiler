@@ -8,13 +8,16 @@
 
 #pragma once
 
-#include "string.h"
+#include "core/string.h"
+#include "core/linear_allocator.h"
 
 namespace top {
     namespace error {
-        enum ErrorID { UnknownToken, SyntaxError, IndentationError, RedefinitionError };
+        enum ErrorID { UnknownToken, SyntaxError, IndentationError, RedefinitionError, UnknownVariable };
         
         struct Error {
+			struct LinearAllocator allocator;
+
             string mesg;
             
             string filename;
@@ -30,5 +33,13 @@ namespace top {
         inline bool is_error(Error* error) { return error->mesg.length > 0; }
         
         void log_error(Error* error);
+
+#ifdef __APPLE__
+		constexpr const char* red = "\033[1;31m";
+		constexpr const char* black = "\033[0m";
+#else
+		constexpr const char* red = "";
+		constexpr const char* black = "";
+#endif
     }
 }

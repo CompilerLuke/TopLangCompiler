@@ -8,9 +8,10 @@
 
 #pragma once
 
-#include "scope.h"
-#include "array.h"
-#include "parser.h"
+#include "validation/scope.h"
+#include "core/array.h"
+#include "parsing/parser.h"
+#include "mir/mir.h"
 
 namespace top {
     namespace validator {
@@ -21,7 +22,10 @@ namespace top {
             array<Scope> unused_scopes;
             
             MemoryPool<1000, Type> type_pool;
+			MemoryPool<1000, VarDesc> var_desc_pool;
             Type* basic_types[20];
+
+			mir::Converter converter;
         };
         
         void make_validation_error(Validator& validator, parser::AST*, error::ErrorID, string);

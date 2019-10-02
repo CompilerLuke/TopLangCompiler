@@ -12,28 +12,53 @@
 
 namespace top {
     namespace validator {
-        void make_var(Validator& validator, VarDesc desc, parser::AST* ast) {
+        VarDesc* make_var(Validator& validator, string name, parser::AST* ast) {
             Scope& scope = last(validator.scopes);
             
             for (int i = 0; i < scope.vars.length; i++) { //todo use hash table
-                if (scope.vars[i].name == desc.name) {
-                    char err[100]; //todo use string buffer
-                    char name[100];
-                    to_cstr(desc.name, name, 100);
-                    sprintf(err, "Redefinition of variable %s", name);
+                if (scope.vars[i]->name == name) {
+                    char* err = alloc<char>(LinearAllocator, &validator.err->allocator, 100);
+                    char cname[100];
+                    to_cstr(name, cname, 100);
+                    sprintf(err, "Redefinition of variable %s", cname); //todo show more variable is defined
                     
                     make_validation_error(validator, ast, error::RedefinitionError, err);
-                    return;
+                    return NULL;
                 }
             }
+
+			VarDesc* desc = pool_alloc(validator.var_desc_pool);
+			desc->name = name;
+
+			array_add(scope.vars, desc);
+
+			return desc;
         }
+
+		VarDesc* get_var(Validator& validator, string name, parser::AST* ast) {
+			for (int i = len(validator.scopes) - 1; i >= 0; i--) {
+				Scope& scope = validator.scopes[i];
+
+				for (int i = 0; i < scope.vars.length; i++) {
+					if (scope.vars[i]->name == name) return scope.vars[i];
+				}
+			}
+
+			char* err = alloc<char>(LinearAllocator, &validator.err->allocator, 100); //todo use string buffer
+			char cname[100];
+			to_cstr(name, cname, 100);
+			sprintf(err, "Unknown variable %s", cname); //todo show more variable is defined
+
+			make_validation_error(validator, ast, error::UnknownVariable, err);
+			return NULL;
+		}
         
         Scope make_scope() {
             return {};
         }
 
         void push_scope(Validator& validator) {
-            Scope scope;
+			Scope scope = {};
             if (len(validator.unused_scopes) > 0) scope = pop(validator.unused_scopes);
             else scope = {};
             

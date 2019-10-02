@@ -6,41 +6,24 @@
 //  Copyright © 2019 Lucas Goetz. All rights reserved.
 //
 
-#include "interpreter.h"
-#include "helper.h"
-#include "bytebuffer.h"
+#include "interpreter/interpreter.h"
+#include "core/helper.h"
+#include "core/bytebuffer.h"
 #include <stdio.h>
 
 namespace top {
-    namespace interpreter {
-        void* push_n_stack(Interpreter& inter, unsigned int amount) {
-            return write_buffer_n(inter.stack, amount);
-        }
-        
-        template<typename T>
-        void push_stack(Interpreter& inter, T t) {
-            write_buffer(inter.stack, t);
-        }
-        
-        void* pop_n_stack(Interpreter& inter, unsigned int amount) {
-            inter.stack.length -= amount;
-            return inter.stack.data + inter.stack.length;
-        }
-        
-        template<typename T>
-        T pop_stack(Interpreter& inter) {
-            return *(T*)pop_n_stack(inter, sizeof(T));
-        }
-        
+	namespace interpreter {
+
 #define OP_Int32(opcode, op) case mir::opcode: { \
-        int b = pop_stack<int>(inter); \
-        int a = pop_stack<int>(inter); \
-        push_stack(inter, a op b); \
+        int target = read_buffer<int>(bytecode, inter.inst);  \
+		int a = inter.registers[read_buffer<int>(bytecode, inter.inst)]; \
+		int b = inter.registers[read_buffer<int>(bytecode, inter.inst)]; \
+		inter.registers[target] = a op b; \
         break; \
     }
         
         void exec(Interpreter& inter) {
-            array<char>& bytecode = inter.func_ptr->bytecode;
+			array<char>& bytecode = inter.mir->bytecode;
             
             while(inter.inst < len(bytecode)) {
                 mir::Opcode op = read_buffer<mir::Opcode>(bytecode, inter.inst);
@@ -51,10 +34,15 @@ namespace top {
                     OP_Int32(Div_Int32, /)
                     OP_Int32(Mul_Int32, *)
                     case mir::Push_Int32: {
+						int target = read_buffer<int>(bytecode, inter.inst);
                         int a = read_buffer<int>(bytecode, inter.inst);
-                        push_stack(inter, a);
+						inter.registers[target] = a;
                         break;
                     }
+					case mir::Ret_Int32: {
+						int res = read_buffer<int>(bytecode, inter.inst);
+						printf("Result = %i\n", inter.registers[res]);
+					}
                 }
             }
         }
@@ -62,18 +50,15 @@ namespace top {
         void interpret(mir::MIR& mir) {
             Interpreter inter = {};
             inter.mir = &mir;
-            inter.func_ptr = &mir.funcs[0];
-            
+           
+			printf("\n=== Interpreter ===\n\n");
             exec(inter);
-            
-            printf("\n=== Interpreter ===\n\n");
-            printf("Result = %i\n", pop_stack<int>(inter));
+           
 
             destroy(inter);
         }
         
         void destroy(Interpreter& inter) {
-            free_array(inter.stack);
         }
     }
 }

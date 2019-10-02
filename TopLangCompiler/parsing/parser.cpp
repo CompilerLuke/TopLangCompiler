@@ -6,9 +6,9 @@
 //  Copyright © 2019 Lucas Goetz. All rights reserved.
 //
 
-#include "parser.h"
+#include "parsing/parser.h"
 #include <stdio.h>
-#include "helper.h"
+#include "core/helper.h"
 
 namespace top {
     namespace parser {
@@ -88,7 +88,7 @@ namespace top {
         
         AST* identifier(Parser& parser, lexer::Token* token) {
             AST* ast = make_node(parser, AST::Identifier, token);
-            ast->identifier = token->value;
+            ast->identifier.name = token->value;
             
             return ast;
         }
@@ -480,7 +480,7 @@ namespace top {
             
             if (ast->type == AST::Identifier) {
                 char buffer[100];
-                to_cstr(ast->identifier, buffer, 100);
+                to_cstr(ast->identifier.name, buffer, 100);
                 printf("%s", buffer);
             }
             
