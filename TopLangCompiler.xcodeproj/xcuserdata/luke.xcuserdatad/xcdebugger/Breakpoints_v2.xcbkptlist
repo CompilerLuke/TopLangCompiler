@@ -666,7 +666,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/validation/validator.cpp"
-            timestampString = "591127487.866475"
+            timestampString = "591204720.181251"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
@@ -682,7 +682,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/mir/mir.cpp"
-            timestampString = "591127487.866539"
+            timestampString = "591204720.181352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "101"
@@ -698,7 +698,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/mir/mir.cpp"
-            timestampString = "591127487.8665971"
+            timestampString = "591204720.18144"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "75"
@@ -714,7 +714,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/mir/mir.cpp"
-            timestampString = "591127487.866647"
+            timestampString = "591204720.181501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "100"
@@ -730,7 +730,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/core/bytebuffer.h"
-            timestampString = "591127487.866694"
+            timestampString = "591204720.1815619"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "14"
@@ -746,12 +746,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopLangCompiler/core/bytebuffer.h"
-            timestampString = "591127487.8667361"
+            timestampString = "591204720.181609"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "24"
             endingLineNumber = "24"
             landmarkName = "write_buffer_n(array&lt;char&gt;&amp; arr, unsigned int amount)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CodeEditor/editor.cpp"
+            timestampString = "591720210.2874219"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
+            landmarkName = "insert(Editor&amp; editor, char c)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CodeEditor/editor.cpp"
+            timestampString = "591720210.288228"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
+            landmarkName = "render_line(Editor&amp; editor)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

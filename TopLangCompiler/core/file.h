@@ -17,6 +17,7 @@ namespace top {
         
         FILE* open(string, FileMode);
         string read_file(FILE*, Allocator alloc = MallocAllocator, void* alloc_data = NULL);
+        void write_file(FILE*, string src);
         void destroy(FILE*);
     }
 };

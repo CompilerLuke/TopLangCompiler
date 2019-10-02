@@ -39,8 +39,6 @@ namespace top {
         return s.length;
     }
     
-
-
     inline void to_cstr(string s, char* buffer, unsigned int length) {
         assert(s.length + 1 < length);
         memcpy(buffer, s.data, s.length);

@@ -1,4 +1,9 @@
-def main(x int):
-    x + 40
+def main(x int) int:
+    x + 20 - 6
 
-main(40)
+main(10)
+
+p := Point{
+    x = 10
+    y = 20
+}

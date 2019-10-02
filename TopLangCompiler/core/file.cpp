@@ -36,6 +36,10 @@ namespace top {
             return { buffer, (unsigned int) fsize };
         }
         
+        void write_file(FILE* file, string src) {
+            fwrite(src.data, 1, len(src), file);
+        }
+        
         void destroy(FILE* file) {
             fclose(file);
         }
