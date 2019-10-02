@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "core/array.h"
-#include "mir/mir.h"
+#include "array.h"
+#include "mir.h"
 
 namespace top {
     namespace interpreter {

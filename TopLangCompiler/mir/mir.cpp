@@ -6,11 +6,11 @@
 //  Copyright © 2019 Lucas Goetz. All rights reserved.
 //
 
-#include "mir/mir.h"
-#include "parsing/parser.h"
-#include "core/helper.h"
+#include "mir.h"
+#include "parser.h"
+#include "helper.h"
 #include <stdio.h>
-#include "core/bytebuffer.h"
+#include "bytebuffer.h"
 
 namespace top {
 	namespace mir {

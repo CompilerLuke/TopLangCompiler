@@ -499,6 +499,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 88A68Y2VZG;
+				HEADER_SEARCH_PATHS = "";
 				"OTHER_LDFLAGS[arch=*]" = "-lncurses";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -509,6 +510,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 88A68Y2VZG;
+				HEADER_SEARCH_PATHS = "";
 				"OTHER_LDFLAGS[arch=*]" = "-lncurses";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

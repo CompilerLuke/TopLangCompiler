@@ -6,9 +6,9 @@
 //  Copyright © 2019 Lucas Goetz. All rights reserved.
 //
 
-#include "interpreter/interpreter.h"
-#include "core/helper.h"
-#include "core/bytebuffer.h"
+#include "interpreter.h"
+#include "helper.h"
+#include "bytebuffer.h"
 #include <stdio.h>
 
 namespace top {

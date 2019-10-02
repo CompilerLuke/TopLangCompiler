@@ -6,9 +6,9 @@
 //  Copyright © 2019 Lucas Goetz. All rights reserved.
 //
 
-#include "parsing/parser.h"
+#include "parser.h"
 #include <stdio.h>
-#include "core/helper.h"
+#include "helper.h"
 
 namespace top {
     namespace parser {

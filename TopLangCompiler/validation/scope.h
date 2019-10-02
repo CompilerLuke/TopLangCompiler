@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "core/string.h"
-#include "validation/type.h"
-#include "parsing/parser.h"
+#include "string.h"
+#include "type.h"
+#include "parser.h"
 
 namespace top {
     namespace validator {

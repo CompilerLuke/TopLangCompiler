@@ -8,10 +8,10 @@
 
 #pragma once
 
-#include "validation/scope.h"
-#include "core/array.h"
-#include "parsing/parser.h"
-#include "mir/mir.h"
+#include "scope.h"
+#include "array.h"
+#include "parser.h"
+#include "mir.h"
 
 namespace top {
     namespace validator {

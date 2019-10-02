@@ -275,10 +275,7 @@ namespace top {
             int num_indent = 0;
             
             for (int i = editor.i - 1; i >= 0; i--) {
-                if (editor.source[i] != ' ') {
-                    if (editor.source[i] != '\n') num_indent = 0;
-                    break;
-                }
+                if (!in_gap(editor, i) && editor.source[i] != ' ') break;
                 num_indent++;
             }
             return num_indent;
@@ -309,15 +306,17 @@ namespace top {
         
         void remove(Editor& editor, int num);
         
-        void remove_indent(Editor& editor) {
+        void remove_indent(Editor& editor, int num_indent) {
+            if (num_indent <= 0) return;
             
+            int rem = num_indent % 4;
+            remove(editor, rem == 0 ? 4 : rem);
         }
         
         void insert(Editor& editor, char c) {
             if (c == '}' || c == ')') {
                 int num_indent = find_indent(editor);
-                int rem = num_indent % 4;
-                remove(editor, rem == 0 ? 4 : rem);
+                remove_indent(editor, num_indent);
             }
             
             if (editor.gap_length == 0) { reserve_gap(editor); }
@@ -528,11 +527,7 @@ namespace top {
                         int num_indent = find_indent(editor);
                         
                         if (num_indent == 0) remove(editor, 1);
-                        else {
-                            remove_indent(editor);
-                            int rem = num_indent % 4;
-                            remove(editor, rem == 0 ? 4 : rem);
-                        }
+                        else remove_indent(editor, num_indent);
                         update_target_column(editor);
                         break;
                     }

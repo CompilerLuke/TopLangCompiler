@@ -6,11 +6,11 @@
 //  Copyright © 2019 Lucas Goetz. All rights reserved.
 //
 
-#include "error/error.h"
+#include "error.h"
 #include <stdio.h>
-#include "core/array.h"
-#include "core/helper.h"
-#include "core/string.h"
+#include "array.h"
+#include "helper.h"
+#include "string.h"
 
 namespace top {
     namespace error {

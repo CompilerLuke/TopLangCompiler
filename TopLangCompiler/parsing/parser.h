@@ -8,10 +8,10 @@
 
 #pragma once
 
-#include "lexing/lexer.h"
-#include "core/array.h"
-#include "core/memory_pool.h"
-#include "core/linear_allocator.h"
+#include "lexer.h"
+#include "array.h"
+#include "memory_pool.h"
+#include "linear_allocator.h"
 
 namespace top {
     enum class OperatorType { Add, Sub, Mul, Div, Assign, In, ColonAssign, AddAssign, SubAssign, MulAssign, DivAssign };

@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "core/string.h"
-#include "core/linear_allocator.h"
+#include "string.h"
+#include "linear_allocator.h"
 
 namespace top {
     namespace error {

@@ -11,9 +11,9 @@
 #include "lexer.h"
 #include <string.h>
 #include "string.h"
-#include "core/array.h"
-#include "core/helper.h"
-#include "core/linear_allocator.h"
+#include "array.h"
+#include "helper.h"
+#include "linear_allocator.h"
 
 namespace top {
     namespace lexer {
